@@ -14,9 +14,12 @@
 
 ## ATmega interrupt
 
-- INT0 (PD2), **LOW-level** interrupt. LOW-level is the only mode that wakes the ATmega from power-down reliably, and it also catches an alarm that fired just before sleep.
-- Because the line stays LOW until `A1F` is cleared, the ISR must disable INT0 immediately (`EIMSK &= ~_BV(INT0)`) and the main code clears `A1F` over I2C, re-arms the alarm, then re-enables INT0. Otherwise the CPU re-enters the ISR forever.
-- The ISR only sets a flag. Alarm rearm and I2C work happen in the main loop.
+The DS3231 INT/SQW line is wired by an external wire to socket pin 26, which is **A3 (PC3, PCINT11)**. The firmware uses the pin-change mode. (An INT0 mode exists in `power.cpp` behind `TLC_RTC_ON_INT0`, but D2 is now MAX485 DE, so it is disabled with a compile error.)
+
+- **A3 pin change (default).** The pin-change interrupt wakes the ATmega from power-down, but it is edge triggered, so an alarm that went LOW before the interrupt was enabled would be missed. `power_sleep_until_alarm()` therefore reads the pin level with interrupts off right before sleeping: if the line is already LOW it does not sleep. The ISR ignores the rising edge (when `A1F` is cleared) and only reacts to LOW. The internal pull-up is enabled in addition to the module's.
+- **INT0 (alternative).** Move the wire to header P1.2 and build with `-DTLC_RTC_ON_INT0=1`. LOW-level interrupt on INT0 (PD2): it cannot miss an edge, which makes it the more robust choice.
+
+In both modes the line stays LOW until `A1F` is cleared, so the ISR masks the interrupt immediately and the main code clears `A1F` over I2C, re-arms the alarm, and only then lets the next sleep re-enable the interrupt. The ISR only sets a flag; alarm re-arm and I2C work happen in the main loop.
 
 ## Boot sequence
 
@@ -40,7 +43,7 @@ The next alarm is the earliest enabled start strictly after the current time acr
 
 On each wake:
 
-1. Disable INT0, read status, clear `A1F`.
+1. The ISR has already masked the alarm interrupt; read status, clear `A1F`.
 2. Read the time. If today's `dowMask` bit is not set for the entry that matched (or the time is outside any window), this was just a day-of-week skip: compute the next alarm, arm it, sleep again.
 3. Otherwise start the peak sequence (`PEAK_NOTIFY`).
 4. The next alarm is computed and written at once (the earliest future window start across all enabled entries, today or later). The alarm is always re-armed before the peak sequence starts, so a crash mid-peak cannot lose all future alarms.

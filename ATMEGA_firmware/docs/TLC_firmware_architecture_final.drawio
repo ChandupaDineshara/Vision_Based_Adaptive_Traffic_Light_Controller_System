@@ -31,7 +31,7 @@
             <mxPoint x="610" y="330" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="e2" edge="1" parent="1" source="rtc" style="endArrow=classic;html=1;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" value="INT/SQW -&gt; INT0&lt;br&gt;LOW level, pull-up">
+        <mxCell id="e2" edge="1" parent="1" source="rtc" style="endArrow=classic;html=1;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" value="INT/SQW -&gt; A3 (PCINT11)&lt;br&gt;external wire, pull-up">
           <mxGeometry relative="1" x="0.1385" as="geometry">
             <mxPoint as="offset" />
             <Array as="points">
@@ -94,7 +94,7 @@
         <mxCell id="mx1" value="&lt;b&gt;MAX485&lt;/b&gt;&lt;br&gt;ATmega side&lt;br&gt;120 ohm term.&lt;br&gt;bias at one point" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
           <mxGeometry x="400" y="335" width="120" height="90" as="geometry" />
         </mxCell>
-        <mxCell id="atm" value="&lt;b&gt;ATmega328P&lt;/b&gt;&lt;br&gt;5 V, 16 MHz crystal&lt;br&gt;&lt;br&gt;D0 RX  D1 TX&lt;br&gt;D4 DE   D5 /RE&lt;br&gt;D2 INT0 (RTC)&lt;br&gt;D9 WAKE&lt;br&gt;A4 SDA  A5 SCL&lt;br&gt;D7 debug trace" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=10;" vertex="1" parent="1">
+        <mxCell id="atm" value="&lt;b&gt;ATmega328P&lt;/b&gt;&lt;br&gt;5 V, 16 MHz crystal&lt;br&gt;&lt;br&gt;D0 RX  D1 TX&lt;br&gt;D2 DE   D3 /RE&lt;br&gt;A3 (RTC alarm)&lt;br&gt;D9 WAKE&lt;br&gt;A4 SDA  A5 SCL&lt;br&gt;D7 debug trace" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=10;" vertex="1" parent="1">
           <mxGeometry x="600" y="270" width="190" height="220" as="geometry" />
         </mxCell>
         <mxCell id="rtc" value="&lt;b&gt;DS3231 module&lt;/b&gt;&lt;br&gt;SDA, SCL (5 V side)&lt;br&gt;INT/SQW open drain&lt;br&gt;coin cell CR2032/LIR2032" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
@@ -121,13 +121,13 @@
         <mxCell id="e2" value="RS-485 A/B pair" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;" edge="1" parent="1" source="mx2" target="mx1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e3" value="D0/D1 + D4/D5" style="endArrow=classic;startArrow=classic;html=1;" edge="1" parent="1" source="mx1" target="atm">
+        <mxCell id="e3" value="D0/D1 + D2/D3" style="endArrow=classic;startArrow=classic;html=1;" edge="1" parent="1" source="mx1" target="atm">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="e4" value="I2C SDA/SCL" style="endArrow=classic;startArrow=classic;html=1;" edge="1" parent="1" source="atm" target="rtc">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="e5" value="INT/SQW to D2 (INT0)" style="endArrow=classic;html=1;dashed=1;exitX=0.15;exitY=1;entryX=0.15;entryY=0;" edge="1" parent="1" source="rtc" target="atm">
+        <mxCell id="e5" value="INT/SQW to socket pin 26 (A3)" style="endArrow=classic;html=1;dashed=1;exitX=0.15;exitY=1;entryX=0.15;entryY=0;" edge="1" parent="1" source="rtc" target="atm">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="e6" value="SDA, SCL, WAKE (5 V side)" style="endArrow=classic;startArrow=classic;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1" source="atm" target="ls">
@@ -189,7 +189,7 @@
         <mxCell id="c3" parent="L3" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;rtc_ds3231&lt;/b&gt;&lt;br&gt;time r/w, Alarm 1,&lt;br&gt;OSF, A1F clear" vertex="1">
           <mxGeometry height="80" width="190" x="440" y="30" as="geometry" />
         </mxCell>
-        <mxCell id="c4" parent="L3" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;power&lt;/b&gt;&lt;br&gt;power-down sleep,&lt;br&gt;INT0 mask / unmask,&lt;br&gt;watchdog on/off" vertex="1">
+        <mxCell id="c4" parent="L3" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;power&lt;/b&gt;&lt;br&gt;power-down sleep,&lt;br&gt;alarm interrupt mask / unmask,&lt;br&gt;watchdog on/off" vertex="1">
           <mxGeometry height="80" width="190" x="650" y="30" as="geometry" />
         </mxCell>
         <mxCell id="c5" parent="L3" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;debug&lt;/b&gt;&lt;br&gt;trace pin D7,&lt;br&gt;compiled out in release" vertex="1">
@@ -201,13 +201,13 @@
         <mxCell id="d1" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="UART0 + RX ISR" vertex="1">
           <mxGeometry height="40" width="150" x="20" y="35" as="geometry" />
         </mxCell>
-        <mxCell id="d2" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="GPIO: D9 wake, D4/D5 DE//RE, D7 trace" vertex="1">
+        <mxCell id="d2" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="GPIO: D9 wake, D2/D3 DE//RE, D7 trace" vertex="1">
           <mxGeometry height="40" width="210" x="190" y="35" as="geometry" />
         </mxCell>
         <mxCell id="d3" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="TWI (I2C master)" vertex="1">
           <mxGeometry height="40" width="150" x="420" y="35" as="geometry" />
         </mxCell>
-        <mxCell id="d4" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="INT0 ISR (flag only)" vertex="1">
+        <mxCell id="d4" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="RTC alarm ISR (flag only)" vertex="1">
           <mxGeometry height="40" width="160" x="590" y="35" as="geometry" />
         </mxCell>
         <mxCell id="d5" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="Timer0 millis, WDT, sleep" vertex="1">
@@ -242,7 +242,7 @@
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
-        <mxCell id="s0" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="IDLE_SLEEP&lt;br&gt;power-down, INT0 armed" vertex="1">
+        <mxCell id="s0" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="IDLE_SLEEP&lt;br&gt;power-down, RTC alarm armed" vertex="1">
           <mxGeometry height="60" width="150" x="90" y="130" as="geometry" />
         </mxCell>
         <mxCell id="s1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="PEAK_NOTIFY&lt;br&gt;send PEAK_START" vertex="1">
@@ -410,10 +410,10 @@
         <mxCell id="n6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Compute next window start (earliest enabled entry, today or later)&lt;br&gt;Write Alarm 1, set A1IE, clear A1F" vertex="1">
           <mxGeometry height="80" width="280" x="260" y="490" as="geometry" />
         </mxCell>
-        <mxCell id="n7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Enable INT0 (LOW level), enter power-down sleep&lt;br&gt;(ESP32 already in deep sleep, ETLC link not listened)" vertex="1">
+        <mxCell id="n7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Enable Enable the RTC alarm interrupt (A3), enter power-down sleep&lt;br&gt;(ESP32 already in deep sleep, ETLC link not listened)" vertex="1">
           <mxGeometry height="80" width="280" x="260" y="610" as="geometry" />
         </mxCell>
-        <mxCell id="n8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="RTC alarm pulls INT/SQW LOW: CPU wakes&lt;br&gt;ISR: mask INT0, set alarmFlag (nothing else)" vertex="1">
+        <mxCell id="n8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="RTC alarm pulls INT/SQW LOW: CPU wakes&lt;br&gt;ISR: mask the alarm interrupt, set alarmFlag (nothing else)" vertex="1">
           <mxGeometry height="70" width="280" x="260" y="730" as="geometry" />
         </mxCell>
         <mxCell id="n9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Main loop: clear A1F over I2C, read time,&lt;br&gt;compute and arm the NEXT alarm (before anything else)" vertex="1">
@@ -1158,7 +1158,7 @@
         <mxCell id="o10" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=6;" value="ATmega enters power-down sleep. The next alarm was already armed at peak start. ESP32 is already in deep sleep." vertex="1">
           <mxGeometry height="70" width="330" x="430" y="1230" as="geometry" />
         </mxCell>
-        <mxCell id="o11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" value="INT0: next window start alarm">
+        <mxCell id="o11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" value="RTC alarm (A3): next window start">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="650" y="1340" as="sourcePoint" />
             <mxPoint x="400" y="1340" as="targetPoint" />

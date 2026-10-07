@@ -1,0 +1,8 @@
+{
+  "name": "tlc_core",
+  "version": "1.0.0",
+  "description": "Hardware-independent logic: frame codec, schedule, green-time maths, parameter file, ESP32 result checks. Unit-tested on the PC.",
+  "build": {
+    "flags": "-I../../include"
+  }
+}

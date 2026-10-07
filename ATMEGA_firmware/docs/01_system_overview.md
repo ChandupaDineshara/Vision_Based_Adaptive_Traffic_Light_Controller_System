@@ -21,7 +21,7 @@ Outside peak windows, or on any failure, the ETLC runs its own fixed timing unto
 | Custom UART protocol | ATmega <-> ETLC | RS-485 via MAX485 on both sides, DE and RE on separate pins | Half-duplex, turn-based. See `02_protocol_spec.md` |
 | I2C | ATmega (master) <-> ESP32 (slave 0x08) and DS3231 (0x68) | Level shifter between 5 V ATmega side and 3.3 V ESP32 side | See `03_esp32_i2c_interface.md` |
 | Wake line | ATmega <-> ESP32 | One open-drain wire through the level shifter, pulled up to 5 V (ATmega side) and 3.3 V (ESP32 side), either side pulls LOW, nobody drives HIGH | Wake (ATmega -> ESP32) and done (ESP32 -> ATmega). See `05_wake_line.md` |
-| RTC alarm | DS3231 INT/SQW -> ATmega INT0 | Open drain, pull-up, LOW-level interrupt | See `06_rtc_schedule.md` |
+| RTC alarm | DS3231 INT/SQW -> ATmega A3 (socket pin 26, external wire) | Open drain, pull-up, pin-change interrupt (PCINT11), level checked before sleep | See `06_rtc_schedule.md` |
 
 ## Normal sequence of one peak window
 

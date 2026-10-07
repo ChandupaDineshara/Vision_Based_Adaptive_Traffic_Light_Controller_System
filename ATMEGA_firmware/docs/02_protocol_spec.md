@@ -83,7 +83,7 @@ The ETLC firmware must implement this state machine (names are normative, intern
 
 | ETLC state | Entered by | Behaviour |
 |---|---|---|
-| `NORMAL` | power-up, `PEAK_END`, ATmega silence timeout | Fixed timing. Ignores everything except `PEAK_START` and `PING` |
+| `NORMAL` | power-up, `PEAK_END`, ATmega silence timeout | Fixed timing. Ignores everything except `PEAK_START`, `PING` and `PEAK_END` (a `PEAK_END` in `NORMAL` is simply ACKed, so a repeated or late one is harmless) |
 | `ADAPTIVE_IDLE` | `PEAK_START` accepted | Fixed timing. On the camera road's red start send `RED_STARTED` |
 | `AWAIT_GREEN_TIME` | `RED_STARTED` ACKed | Accept `GREEN_TIME` until `secsToGreen - guard` has elapsed, then give up and return to `ADAPTIVE_IDLE` with fixed timing |
 
