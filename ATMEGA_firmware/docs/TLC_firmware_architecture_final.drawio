@@ -1,0 +1,1479 @@
+<mxfile host="app.diagrams.net" pages="13">
+  <diagram id="hw" name="1 System block diagram">
+    <mxGraphModel dx="4172" dy="1693" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="atm" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" value="&lt;b&gt;ATmega328P&lt;/b&gt;&lt;br&gt;16 MHz, 5 V&lt;br&gt;Coordinator / state machine&lt;br&gt;EEPROM params + schedule" vertex="1">
+          <mxGeometry height="120" width="220" x="281" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="rtc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;" value="&lt;b&gt;DS3231 RTC&lt;/b&gt;&lt;br&gt;I2C 0x68&lt;br&gt;Alarm 1, OSF, coin cell" vertex="1">
+          <mxGeometry height="90" width="160" x="520" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="MAX485&lt;br&gt;DE + /RE pins" vertex="1">
+          <mxGeometry height="60" width="110" x="42" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="m2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="MAX485" vertex="1">
+          <mxGeometry height="60" width="90" x="-144" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="etlc" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;" value="&lt;b&gt;ETLC&lt;/b&gt;&lt;br&gt;Existing Traffic Light Controller&lt;br&gt;(reprogrammable)" vertex="1">
+          <mxGeometry height="120" width="160" x="-400" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="ls" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="Level shifter&lt;br&gt;5 V &lt;-&gt; 3.3 V" vertex="1">
+          <mxGeometry height="120" width="90" x="671" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="esp" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;" value="&lt;b&gt;ESP32-CAM&lt;/b&gt;&lt;br&gt;I2C slave 0x08&lt;br&gt;Camera + density 0-3&lt;br&gt;Deep sleep between wakes" vertex="1">
+          <mxGeometry height="120" width="160" x="891" y="300" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" style="endArrow=none;startArrow=classic;html=1;startFill=1;endFill=0;" value="I2C SDA/SCL">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="150.81" as="sourcePoint" />
+            <mxPoint x="610" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="rtc" style="endArrow=classic;html=1;dashed=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" value="INT/SQW -&gt; INT0&lt;br&gt;LOW level, pull-up">
+          <mxGeometry relative="1" x="0.1385" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="390" y="105" />
+            </Array>
+            <mxPoint x="390" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="atm" style="endArrow=classic;startArrow=classic;html=1;" target="m1" value="UART TX/RX +&lt;div&gt;&amp;nbsp;DE/RE&lt;/div&gt;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="m1" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;" target="m2" value="RS-485&amp;nbsp;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="m2" style="endArrow=classic;startArrow=classic;html=1;" target="etlc" value="UART">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" style="endArrow=classic;startArrow=classic;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="ls" value="I2C">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="499.99999999999955" y="330" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e7" edge="1" parent="1" source="ls" style="endArrow=classic;startArrow=classic;html=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;entryX=0;entryY=0.25;entryDx=0;entryDy=0;" target="esp" value="I2C 0x08">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="wl" edge="1" parent="1" style="endArrow=classic;startArrow=classic;html=1;strokeColor=#b85450;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.75;entryX=0;entryY=0.75;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="ls" value="5 V pull-up&amp;nbsp;&lt;br&gt;Wake 100 ms LOW&amp;nbsp;&amp;nbsp;&lt;div&gt;Done 30 ms LOW&lt;/div&gt;">
+          <mxGeometry relative="1" x="-0.0526" y="-30" as="geometry">
+            <mxPoint as="offset" />
+            <mxPoint x="499.99999999999955" y="390" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="wl2" edge="1" parent="1" source="ls" style="endArrow=classic;startArrow=classic;html=1;strokeColor=#b85450;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;exitX=1;exitY=0.75;entryX=0;entryY=0.75;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="esp" value="3.3 V pull-up&amp;nbsp;&lt;div&gt;&lt;br/&gt;&lt;/div&gt;">
+          <mxGeometry relative="1" x="0.0909" y="-20" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Kiu879yz6P0Jvb4PLkPV-4" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Interrupt" vertex="1">
+          <mxGeometry height="30" width="60" x="551" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="Kiu879yz6P0Jvb4PLkPV-5" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Interrupt" vertex="1">
+          <mxGeometry height="30" width="60" x="806" y="360" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="hwd" name="2 Hardware wiring detail">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T" value="Hardware wiring detail (pin numbers are proposals until the PCB map is confirmed)" style="text;html=1;fontStyle=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="900" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="etlc" value="&lt;b&gt;ETLC&lt;/b&gt;&lt;br&gt;UART TX/RX&lt;br&gt;DE, /RE pins" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="40" y="330" width="120" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="mx2" value="&lt;b&gt;MAX485&lt;/b&gt;&lt;br&gt;ETLC side&lt;br&gt;120 ohm term." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="210" y="335" width="110" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="mx1" value="&lt;b&gt;MAX485&lt;/b&gt;&lt;br&gt;ATmega side&lt;br&gt;120 ohm term.&lt;br&gt;bias at one point" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="400" y="335" width="120" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="atm" value="&lt;b&gt;ATmega328P&lt;/b&gt;&lt;br&gt;5 V, 16 MHz crystal&lt;br&gt;&lt;br&gt;D0 RX  D1 TX&lt;br&gt;D4 DE   D5 /RE&lt;br&gt;D2 INT0 (RTC)&lt;br&gt;D9 WAKE&lt;br&gt;A4 SDA  A5 SCL&lt;br&gt;D7 debug trace" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="600" y="270" width="190" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="rtc" value="&lt;b&gt;DS3231 module&lt;/b&gt;&lt;br&gt;SDA, SCL (5 V side)&lt;br&gt;INT/SQW open drain&lt;br&gt;coin cell CR2032/LIR2032" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="600" y="70" width="190" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="pu5" value="5 V pull-ups: SDA, SCL (4.7 k), RTC INT, WAKE" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="840" y="70" width="190" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="ls" value="&lt;b&gt;Level shifter&lt;/b&gt;&lt;br&gt;bidirectional open-drain (BSS138 type)&lt;br&gt;HV side 5 V | LV side 3.3 V&lt;br&gt;&lt;br&gt;CH1 SDA&lt;br&gt;CH2 SCL&lt;br&gt;CH3 WAKE" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="940" y="300" width="210" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="pu33" value="3.3 V pull-ups: SDA, SCL (4.7 k), WAKE" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="300" width="170" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="esp" value="&lt;b&gt;ESP32-CAM&lt;/b&gt;&lt;br&gt;3.3 V logic, 5 V supply in&lt;br&gt;&lt;br&gt;GPIO15 SDA&lt;br&gt;GPIO14 SCL&lt;br&gt;GPIO13 WAKE (ext0)&lt;br&gt;camera on board&lt;br&gt;no SD card" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;spacingLeft=10;" vertex="1" parent="1">
+          <mxGeometry x="1200" y="400" width="190" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="pw" value="&lt;b&gt;Power&lt;/b&gt;&lt;br&gt;5 V rail: ATmega, MAX485 (both), DS3231, shifter HV, ESP32-CAM 5 V pin (300-500 mA peaks, bulk capacitor)&lt;br&gt;3.3 V rail: shifter LV, ESP32 pull-ups (from the ESP32-CAM 3.3 V output or a regulator)&lt;br&gt;Common ground across all boards; ETLC ground shared (or isolated RS-485)" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="560" width="620" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" value="UART" style="endArrow=classic;startArrow=classic;html=1;" edge="1" parent="1" source="etlc" target="mx2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" value="RS-485 A/B pair" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=3;" edge="1" parent="1" source="mx2" target="mx1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" value="D0/D1 + D4/D5" style="endArrow=classic;startArrow=classic;html=1;" edge="1" parent="1" source="mx1" target="atm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="I2C SDA/SCL" style="endArrow=classic;startArrow=classic;html=1;" edge="1" parent="1" source="atm" target="rtc">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="INT/SQW to D2 (INT0)" style="endArrow=classic;html=1;dashed=1;exitX=0.15;exitY=1;entryX=0.15;entryY=0;" edge="1" parent="1" source="rtc" target="atm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" value="SDA, SCL, WAKE (5 V side)" style="endArrow=classic;startArrow=classic;html=1;strokeColor=#b85450;strokeWidth=2;" edge="1" parent="1" source="atm" target="ls">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" value="SDA, SCL, WAKE (3.3 V side)" style="endArrow=classic;startArrow=classic;html=1;strokeColor=#b85450;strokeWidth=2;edgeStyle=orthogonalEdgeStyle;exitX=0.8;exitY=1;entryX=0.2;entryY=0;" edge="1" parent="1" source="ls" target="esp">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="fw" name="3 ATmega firmware layers">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1169" pageHeight="900" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T" parent="1" style="text;html=1;fontStyle=1;fontSize=16;" value="ATmega328P firmware architecture (PlatformIO: src/ and include/)" vertex="1">
+          <mxGeometry height="30" width="700" x="40" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="L1" parent="1" style="swimlane;startSize=24;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="&lt;b&gt;Application layer&lt;/b&gt;" vertex="1">
+          <mxGeometry height="110" width="1060" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;main.cpp&lt;/b&gt;&lt;br&gt;setup(), loop()&lt;br&gt;sleep / wake glue" vertex="1">
+          <mxGeometry height="60" width="200" x="20" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffffff;" value="&lt;b&gt;fsm.cpp&lt;/b&gt;&lt;br&gt;IDLE_SLEEP, PEAK_NOTIFY, WAIT_FOR_RED, ACCUMULATE, CAPTURE, COMPUTE, SEND, FALLBACK, PEAK_FALLBACK, PEAK_ENDING" vertex="1">
+          <mxGeometry height="60" width="540" x="260" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" parent="L1" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;fault log&lt;/b&gt;&lt;br&gt;lastError, counters" vertex="1">
+          <mxGeometry height="60" width="190" x="840" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="L2" parent="1" style="swimlane;startSize=24;fillColor=#d5e8d4;strokeColor=#82b366;" value="&lt;b&gt;Service layer (no direct hardware access)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="130" width="1060" x="40" y="190" as="geometry" />
+        </mxCell>
+        <mxCell id="b1" parent="L2" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;tlcp_link&lt;/b&gt;&lt;br&gt;frame encode / parse&lt;br&gt;CRC-8, SEQ, ACK match,&lt;br&gt;retries, duplicate filter" vertex="1">
+          <mxGeometry height="80" width="190" x="20" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="b2" parent="L2" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;esp_client&lt;/b&gt;&lt;br&gt;read 6-byte result,&lt;br&gt;validate CRC / captureId,&lt;br&gt;SLEEP / ABORT" vertex="1">
+          <mxGeometry height="80" width="190" x="230" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="b3" parent="L2" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;schedule&lt;/b&gt;&lt;br&gt;window table, dow mask,&lt;br&gt;inside-window test,&lt;br&gt;next-alarm computation" vertex="1">
+          <mxGeometry height="80" width="190" x="440" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="b4" parent="L2" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;green_calc&lt;/b&gt;&lt;br&gt;level to seconds,&lt;br&gt;clamp, timing budget,&lt;br&gt;A_eff" vertex="1">
+          <mxGeometry height="80" width="190" x="650" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="b5" parent="L2" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;params&lt;/b&gt;&lt;br&gt;EEPROM register file,&lt;br&gt;defaults, CRC check" vertex="1">
+          <mxGeometry height="80" width="170" x="860" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="L3" parent="1" style="swimlane;startSize=24;fillColor=#fff2cc;strokeColor=#d6b656;" value="&lt;b&gt;Driver layer&lt;/b&gt;" vertex="1">
+          <mxGeometry height="120" width="1060" x="40" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="c1" parent="L3" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;rs485&lt;/b&gt;&lt;br&gt;UART0 9600 8N1,&lt;br&gt;RX ring buffer,&lt;br&gt;DE//RE switch after TXC" vertex="1">
+          <mxGeometry height="80" width="190" x="20" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" parent="L3" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;wake_line&lt;/b&gt;&lt;br&gt;100 ms wake pulse,&lt;br&gt;done-pulse width measure,&lt;br&gt;stuck-LOW check" vertex="1">
+          <mxGeometry height="80" width="190" x="230" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" parent="L3" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;rtc_ds3231&lt;/b&gt;&lt;br&gt;time r/w, Alarm 1,&lt;br&gt;OSF, A1F clear" vertex="1">
+          <mxGeometry height="80" width="190" x="440" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c4" parent="L3" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;power&lt;/b&gt;&lt;br&gt;power-down sleep,&lt;br&gt;INT0 mask / unmask,&lt;br&gt;watchdog on/off" vertex="1">
+          <mxGeometry height="80" width="190" x="650" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" parent="L3" style="rounded=1;whiteSpace=wrap;html=1;" value="&lt;b&gt;debug&lt;/b&gt;&lt;br&gt;trace pin D7,&lt;br&gt;compiled out in release" vertex="1">
+          <mxGeometry height="80" width="170" x="860" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="L4" parent="1" style="swimlane;startSize=24;fillColor=#f5f5f5;strokeColor=#666666;" value="&lt;b&gt;ATmega328P peripherals&lt;/b&gt;" vertex="1">
+          <mxGeometry height="90" width="1060" x="40" y="500" as="geometry" />
+        </mxCell>
+        <mxCell id="d1" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="UART0 + RX ISR" vertex="1">
+          <mxGeometry height="40" width="150" x="20" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="d2" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="GPIO: D9 wake, D4/D5 DE//RE, D7 trace" vertex="1">
+          <mxGeometry height="40" width="210" x="190" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="d3" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="TWI (I2C master)" vertex="1">
+          <mxGeometry height="40" width="150" x="420" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="d4" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="INT0 ISR (flag only)" vertex="1">
+          <mxGeometry height="40" width="160" x="590" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="d5" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="Timer0 millis, WDT, sleep" vertex="1">
+          <mxGeometry height="40" width="170" x="770" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="d6" parent="L4" style="rounded=1;whiteSpace=wrap;html=1;" value="EEPROM" vertex="1">
+          <mxGeometry height="40" width="80" x="960" y="35" as="geometry" />
+        </mxCell>
+        <mxCell id="sh" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;spacingLeft=8;" value="&lt;b&gt;Shared headers&lt;/b&gt;&lt;br&gt;include/tlc_protocol.h (wire constants, CRC-8, also used by ESP32 and ETLC code)&lt;br&gt;include/pins.h (pin map from the final PCB)" vertex="1">
+          <mxGeometry height="70" width="520" x="40" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="rule" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;" value="&lt;b&gt;Rules&lt;/b&gt;&lt;br&gt;- ISRs only set flags or fill the RX buffer; all logic runs in loop()&lt;br&gt;- fsm calls services; services call drivers; nothing calls upward&lt;br&gt;- every wait has a timeout and feeds the watchdog&lt;br&gt;- any fault: send nothing for that cycle" vertex="1">
+          <mxGeometry height="90" width="520" x="580" y="620" as="geometry" />
+        </mxCell>
+        <mxCell id="f1" edge="1" parent="1" source="a1" style="endArrow=classic;html=1;" target="a2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" edge="1" parent="1" source="L1" style="endArrow=classic;html=1;" target="L2" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" edge="1" parent="1" source="L2" style="endArrow=classic;html=1;" target="L3" value="uses">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f4" edge="1" parent="1" source="L3" style="endArrow=classic;html=1;" target="L4" value="drives">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="fsm" name="4 ATmega state machine">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="s0" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="IDLE_SLEEP&lt;br&gt;power-down, INT0 armed" vertex="1">
+          <mxGeometry height="60" width="150" x="90" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="PEAK_NOTIFY&lt;br&gt;send PEAK_START" vertex="1">
+          <mxGeometry height="60" width="150" x="480" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="WAIT_FOR_RED&lt;br&gt;listen for RED_STARTED" vertex="1">
+          <mxGeometry height="60" width="160" x="720" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ACCUMULATE&lt;br&gt;wait A_eff s" vertex="1">
+          <mxGeometry height="60" width="150" x="1110" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="CAPTURE&lt;br&gt;wake pulse + wait for done, read once" vertex="1">
+          <mxGeometry height="60" width="150" x="1110" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="COMPUTE&lt;br&gt;level -&gt; green, clamp, deadline" vertex="1">
+          <mxGeometry height="60" width="160" x="495" y="550" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="SEND&lt;br&gt;GREEN_TIME + ACK" vertex="1">
+          <mxGeometry height="60" width="150" x="500" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="s7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="FALLBACK&lt;br&gt;send nothing, abort ESP32" vertex="1">
+          <mxGeometry height="60" width="160" x="760" y="380" as="geometry" />
+        </mxCell>
+        <mxCell id="s8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="PEAK_FALLBACK&lt;br&gt;PING until ETLC answers" vertex="1">
+          <mxGeometry height="60" width="150" x="280" y="430" as="geometry" />
+        </mxCell>
+        <mxCell id="s9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="PEAK_ENDING&lt;br&gt;send PEAK_END, re-arm alarm" vertex="1">
+          <mxGeometry height="60" width="150" x="90" y="290" as="geometry" />
+        </mxCell>
+        <mxCell id="t0" edge="1" parent="1" source="s0" style="endArrow=classic;html=1;" target="s1" value="RTC alarm + window active">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t1" edge="1" parent="1" source="s1" style="endArrow=classic;html=1;" target="s2" value="ACK">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" edge="1" parent="1" source="s2" style="endArrow=classic;html=1;" target="s3" value="RED_STARTED, fits budget">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t3" edge="1" parent="1" source="s3" style="endArrow=classic;html=1;" target="s4" value="delay elapsed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t4" edge="1" parent="1" source="s4" style="endArrow=classic;html=1;" target="s5" value="valid READY frame">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t5" edge="1" parent="1" source="s5" style="endArrow=classic;html=1;" target="s6" value="deadline ok">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="t6" edge="1" parent="1" source="s6" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=0;" value="ACK/NAK received">
+          <mxGeometry relative="1" x="0.3425" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="575" y="240" />
+              <mxPoint x="750" y="240" />
+              <mxPoint x="750" y="190.4" />
+            </Array>
+            <mxPoint x="750" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t7" edge="1" parent="1" source="s4" style="endArrow=classic;html=1;strokeColor=#b85450;exitX=0.271;exitY=-0.012;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;" target="s7" value="timeout / ESP error / bad data">
+          <mxGeometry relative="1" x="-0.0525" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1150.65" y="480" />
+              <mxPoint x="1020" y="480" />
+              <mxPoint x="880" y="480" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t8" edge="1" parent="1" source="s5" style="endArrow=classic;html=1;strokeColor=#b85450;exitX=0.833;exitY=-0.018;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" target="s7" value="deadline missed">
+          <mxGeometry relative="1" x="0.0284" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="628.28" y="480" />
+              <mxPoint x="700" y="480" />
+              <mxPoint x="800" y="480" />
+            </Array>
+            <mxPoint x="610.0047058823529" y="550" as="sourcePoint" />
+            <mxPoint x="780" y="440" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t9" edge="1" parent="1" source="s2" style="endArrow=classic;html=1;strokeColor=#b85450;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" target="s7" value="red too short">
+          <mxGeometry relative="1" x="-0.2632" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t10" edge="1" parent="1" style="endArrow=classic;html=1;strokeColor=#b85450;edgeStyle=orthogonalEdgeStyle;entryX=0.803;entryY=1.007;entryDx=0;entryDy=0;entryPerimeter=0;" target="s2" value="cleanup done">
+          <mxGeometry relative="1" x="-0.156" y="-2" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="848.5" y="380" />
+            </Array>
+            <mxPoint x="848.48" y="380" as="sourcePoint" />
+            <mxPoint x="862.72" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t11" edge="1" parent="1" source="s1" style="endArrow=classic;html=1;strokeColor=#b85450;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;entryX=0.733;entryY=0.003;entryDx=0;entryDy=0;entryPerimeter=0;" target="s8" value="no ACK after retries">
+          <mxGeometry relative="1" x="-0.2843" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="555" y="250" />
+              <mxPoint x="390" y="250" />
+            </Array>
+            <mxPoint x="360" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t12" edge="1" parent="1" source="s8" style="endArrow=classic;html=1;strokeColor=#b85450;edgeStyle=orthogonalEdgeStyle;exitX=0.25;exitY=0;entryX=0.2;entryY=1;exitDx=0;exitDy=0;" target="s1" value="PING ACKed">
+          <mxGeometry relative="1" x="-0.4451" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="317.5" y="220" />
+              <mxPoint x="510" y="220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t13" edge="1" parent="1" source="s2" style="endArrow=classic;html=1;strokeColor=light-dark(#000000,#6D5100);dashed=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="s9" value="RTC time &gt;= window end (from any active state)">
+          <mxGeometry relative="1" x="-0.1304" as="geometry">
+            <Array as="points">
+              <mxPoint x="800" y="70" />
+              <mxPoint x="165" y="70" />
+              <mxPoint x="20" y="70" />
+              <mxPoint x="20" y="200" />
+              <mxPoint x="20" y="320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="t14" edge="1" parent="1" source="s9" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" target="s0" value="PEAK_END ACKed or retries done">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="tn3w-wXH-UjctqXm1j-d-1" parent="1" style="text;html=1;fontStyle=1;fontSize=16;" value="ATmega State Machine" vertex="1">
+          <mxGeometry height="24" width="700" x="20" y="10" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p1" name="5 Flow: boot, sleep, alarm">
+    <mxGraphModel dx="1201" dy="677" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T" parent="1" style="text;html=1;fontStyle=1;fontSize=16;" value="ATmega firmware flow 1/4: boot, sleep and alarm wake" vertex="1">
+          <mxGeometry height="24" width="700" x="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="START (power-up / reset)" vertex="1">
+          <mxGeometry height="40" width="200" x="300" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Init: GPIO released&amp;nbsp;&lt;div&gt;(wake line = input, DE/RE = receive),&amp;nbsp;&lt;/div&gt;&lt;div&gt;UART 9600,&amp;nbsp;&lt;/div&gt;&lt;div&gt;I2C 100 kHz,&amp;nbsp;&lt;/div&gt;&lt;div&gt;load EEPROM params (bad CRC = defaults)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="80" width="280" x="260" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="DS3231 OSF flag set?&lt;br&gt;(or RTC not answering)" vertex="1">
+          <mxGeometry height="100" width="280" x="260" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="rtcValid = false&lt;br&gt;FAULT_RTC_OSF / RTC_COMM&lt;br&gt;No peak operation, ETLC stays on fixed timing" vertex="1">
+          <mxGeometry height="80" width="260" x="640" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="n4b" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="Idle until time is set (debug build command) and chip is reset" vertex="1">
+          <mxGeometry height="90" width="220" x="960" y="215" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Current RTC time inside a&lt;br&gt;schedule window today?" vertex="1">
+          <mxGeometry height="100" width="280" x="260" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="n5y" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="First arm the NEXT alarm (as in the box on the left), then GO TO PAGE 2: peak window" vertex="1">
+          <mxGeometry height="90" width="280" x="640" y="355" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Compute next window start (earliest enabled entry, today or later)&lt;br&gt;Write Alarm 1, set A1IE, clear A1F" vertex="1">
+          <mxGeometry height="80" width="280" x="260" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Enable INT0 (LOW level), enter power-down sleep&lt;br&gt;(ESP32 already in deep sleep, ETLC link not listened)" vertex="1">
+          <mxGeometry height="80" width="280" x="260" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="RTC alarm pulls INT/SQW LOW: CPU wakes&lt;br&gt;ISR: mask INT0, set alarmFlag (nothing else)" vertex="1">
+          <mxGeometry height="70" width="280" x="260" y="730" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Main loop: clear A1F over I2C, read time,&lt;br&gt;compute and arm the NEXT alarm (before anything else)" vertex="1">
+          <mxGeometry height="80" width="280" x="260" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Day-of-week bit set in dowMask&lt;br&gt;AND time inside the window?" vertex="1">
+          <mxGeometry height="100" width="280" x="260" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="n10y" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="GO TO PAGE 2: peak window" vertex="1">
+          <mxGeometry height="70" width="260" x="640" y="975" as="geometry" />
+        </mxCell>
+        <mxCell id="a1" edge="1" parent="1" source="n1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" edge="1" parent="1" source="n2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" edge="1" parent="1" source="n3" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n4" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a3b" edge="1" parent="1" source="n4" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n4b">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" edge="1" parent="1" source="n3" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n5" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a5" edge="1" parent="1" source="n5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n5y" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a6" edge="1" parent="1" source="n5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n6" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a7" edge="1" parent="1" source="n6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a8" edge="1" parent="1" source="n7" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n8" value="alarm">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a9" edge="1" parent="1" source="n8" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a10" edge="1" parent="1" source="n9" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a11" edge="1" parent="1" source="n10" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n10y" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="a12" edge="1" parent="1" source="n10" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" target="n7" value="No (wrong day): back to sleep">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="200" y="1010" />
+              <mxPoint x="200" y="650" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nt" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=6;" value="From page 2 (peak over): the next alarm is already armed, return here to the sleep block" vertex="1">
+          <mxGeometry height="70" width="260" x="640" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="n2pk" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;verticalAlign=top;" value="&lt;b&gt;Two peak windows per day&lt;/b&gt;&lt;br&gt;The alarm is ALWAYS re-armed to the next start (any entry, today or later) the moment the interrupt is handled, before the peak sequence begins.&lt;br&gt;Morning start fires: arm evening start.&lt;br&gt;Evening start fires: arm next scheduled day morning start.&lt;br&gt;Boot inside a window: arm next start first, then run the peak." vertex="1">
+          <mxGeometry height="130" width="300" x="640" y="700" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p2" name="6 Flow: peak window loop">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1700" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T" parent="1" style="text;html=1;fontStyle=1;fontSize=16;" value="ATmega firmware flow 2/4: peak window (ATmega stays awake until the window ends; watchdog fed in every wait)" vertex="1">
+          <mxGeometry height="24" width="1000" x="40" as="geometry" />
+        </mxCell>
+        <mxCell id="p1" parent="1" style="shape=process;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="PEAK_NOTIFY: send PEAK_START&lt;br&gt;(send procedure, page 4)" vertex="1">
+          <mxGeometry height="60" width="200" x="200" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="p2" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="ACK received?" vertex="1">
+          <mxGeometry height="90" width="200" x="200" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="p3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="PEAK_FALLBACK (FAULT_ETLC_NO_ACK)&lt;br&gt;send PING every 60 s until ACKed" vertex="1">
+          <mxGeometry height="80" width="240" x="520" y="125" as="geometry" />
+        </mxCell>
+        <mxCell id="p4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="WAIT_FOR_RED: feed watchdog, read RTC" vertex="1">
+          <mxGeometry height="60" width="200" x="200" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="p5" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="RTC time &gt;= window end?" vertex="1">
+          <mxGeometry height="90" width="200" x="200" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="pend" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="PEAK_ENDING: if a cycle is running send ESP_CMD_ABORT.&lt;br&gt;Send PEAK_END (send procedure, 3 retries; no ACK = log FAULT_PEAKEND_NO_ACK and continue)" vertex="1">
+          <mxGeometry height="100" width="300" x="520" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="pend2" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="GO TO PAGE 1: next alarm already armed, enter sleep block" vertex="1">
+          <mxGeometry height="60" width="260" x="540" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="p6" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Valid RED_STARTED frame received?&lt;br&gt;(link layer ACKs PING and duplicates itself)" vertex="1">
+          <mxGeometry height="110" width="260" x="170" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="p8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Send ACK for RED_STARTED at once.&lt;br&gt;R = secsToGreen, t0 = now" vertex="1">
+          <mxGeometry height="70" width="240" x="1000" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="p10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="A_eff = min(A, R - T_esp - T_tx - G)" vertex="1">
+          <mxGeometry height="60" width="240" x="1000" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="p11" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="A_eff &gt;= ACCUM_MIN_S?" vertex="1">
+          <mxGeometry height="90" width="240" x="1000" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="p12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ACCUMULATE: wait A_eff seconds&lt;br&gt;(abort to PEAK_ENDING if window ends)" vertex="1">
+          <mxGeometry height="70" width="240" x="1000" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="p13" parent="1" style="shape=process;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="CAPTURE sub-flow (page 3):&lt;br&gt;wake ESP32, wait for done pulse, read once, validate" vertex="1">
+          <mxGeometry height="70" width="240" x="1000" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="p14" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Valid result returned?" vertex="1">
+          <mxGeometry height="90" width="240" x="1000" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="p15" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="COMPUTE: green = table[level]&lt;br&gt;clamp to [GREEN_MIN_S, GREEN_MAX_S]" vertex="1">
+          <mxGeometry height="70" width="240" x="1000" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="p16" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="now + T_tx_worst &lt; t0 + R - G ?&lt;br&gt;(still early enough?)" vertex="1">
+          <mxGeometry height="100" width="240" x="1000" y="760" as="geometry" />
+        </mxCell>
+        <mxCell id="p17" parent="1" style="shape=process;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="SEND: GREEN_TIME(greenSecs, level)&lt;br&gt;(send procedure, page 4)" vertex="1">
+          <mxGeometry height="70" width="240" x="1000" y="890" as="geometry" />
+        </mxCell>
+        <mxCell id="p18" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Log result: ACK = sentCount++, NAK = FAULT_GREEN_REFUSED, no ACK = fallback; cycleCount++" vertex="1">
+          <mxGeometry height="80" width="240" x="1000" y="990" as="geometry" />
+        </mxCell>
+        <mxCell id="fb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="FALLBACK (this cycle only)&lt;br&gt;Send NOTHING to the ETLC.&lt;br&gt;ESP_CMD_ABORT if awake, log fault code, fallbackCount++" vertex="1">
+          <mxGeometry height="100" width="240" x="1400" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="b1" edge="1" parent="1" source="p1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b2" edge="1" parent="1" source="p2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p3" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b3" edge="1" parent="1" source="p3" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0.5;exitY=0;entryX=1;entryY=0.5;" target="p1" value="PING ACKed: resend PEAK_START">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="60" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="b3b" edge="1" parent="1" source="p3" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0.5;exitY=1;entryX=0.5;entryY=0;" target="pend" value="window ended">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b4" edge="1" parent="1" source="p2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p4" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b5" edge="1" parent="1" source="p4" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6" edge="1" parent="1" source="p5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="pend" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b6b" edge="1" parent="1" source="pend" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="pend2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b7" edge="1" parent="1" source="p5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p6" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="b8" edge="1" parent="1" source="p6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" target="p4" value="No: keep waiting">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="120" y="505" />
+              <mxPoint x="120" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="b9" edge="1" parent="1" source="p6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="p8" value="Yes">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="900" y="505" />
+              <mxPoint x="900" y="65" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c1" edge="1" parent="1" source="p8" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c2" edge="1" parent="1" source="p10" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c3" edge="1" parent="1" source="p11" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p12" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c3b" edge="1" parent="1" source="p11" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="fb" value="No (FAULT_RED_TOO_SHORT)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1520" y="265" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c4" edge="1" parent="1" source="p12" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c5" edge="1" parent="1" source="p13" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c6" edge="1" parent="1" source="p14" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p15" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c6b" edge="1" parent="1" source="p14" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="fb" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c7" edge="1" parent="1" source="p15" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c8" edge="1" parent="1" source="p16" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p17" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c8b" edge="1" parent="1" source="p16" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=1;exitY=0.5;entryX=0.25;entryY=1;entryDx=0;entryDy=0;" target="fb" value="No (FAULT_DEADLINE)">
+          <mxGeometry relative="1" x="-0.4667" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="1460" y="810" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c9" edge="1" parent="1" source="p17" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="p18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="c10" edge="1" parent="1" source="p18" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" target="p4" value="next red phase">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1120" y="1110" />
+              <mxPoint x="80" y="1110" />
+              <mxPoint x="80" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="c11" edge="1" parent="1" source="fb" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0.5;exitY=1;entryX=0;entryY=0.5;" target="p4" value="back to WAIT_FOR_RED">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1520" y="1150" />
+              <mxPoint x="50" y="1150" />
+              <mxPoint x="50" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p3" name="7 Flow: capture sub-flow">
+    <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="1400" pageHeight="1500" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T" parent="1" style="text;html=1;fontStyle=1;fontSize=16;" value="ATmega firmware flow 3/4: CAPTURE sub-flow. ATmega stays awake and busy-waits for the ESP32 done pulse, then reads the result once." vertex="1">
+          <mxGeometry height="24" width="1100" x="40" as="geometry" />
+        </mxCell>
+        <mxCell id="s0" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="CAPTURE start" vertex="1">
+          <mxGeometry height="40" width="200" x="400" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="s1" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Wake line already LOW?" vertex="1">
+          <mxGeometry height="90" width="280" x="360" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="s2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Wake pulse: PORT bit = 0, then DDR = output (line LOW) for 100 ms, then DDR = input (release). Pin-change on this pin not used." vertex="1">
+          <mxGeometry height="90" width="280" x="360" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="s3" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Line back HIGH within 500 ms?" vertex="1">
+          <mxGeometry height="90" width="280" x="360" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="s4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Start ESP_TIMEOUT timer (15 s). ATmega stays awake, feeds watchdog." vertex="1">
+          <mxGeometry height="70" width="280" x="360" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="s5" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Falling edge on wake line?&lt;br&gt;(ESP32 &quot;done&quot; pulse)" vertex="1">
+          <mxGeometry height="90" width="280" x="360" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="s6" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="15 s timeout elapsed?" vertex="1">
+          <mxGeometry height="90" width="240" x="720" y="610" as="geometry" />
+        </mxCell>
+        <mxCell id="s7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Measure the LOW width; wait until the line is HIGH again" vertex="1">
+          <mxGeometry height="70" width="280" x="360" y="740" as="geometry" />
+        </mxCell>
+        <mxCell id="s7d" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="LOW width 10-80 ms?" vertex="1">
+          <mxGeometry height="90" width="280" x="360" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="s8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="I2C requestFrom(0x08, 6): ONE read" vertex="1">
+          <mxGeometry height="60" width="280" x="360" y="960" as="geometry" />
+        </mxCell>
+        <mxCell id="s9" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="6 bytes received, CRC-8 ok, and status?" vertex="1">
+          <mxGeometry height="100" width="280" x="360" y="1050" as="geometry" />
+        </mxCell>
+        <mxCell id="s10" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="captureId differs from the one stored last cycle?" vertex="1">
+          <mxGeometry height="100" width="280" x="360" y="1180" as="geometry" />
+        </mxCell>
+        <mxCell id="s11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Store level, meanGrad, captureId. Write ESP_CMD_SLEEP to the ESP32." vertex="1">
+          <mxGeometry height="70" width="280" x="360" y="1310" as="geometry" />
+        </mxCell>
+        <mxCell id="s12" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="RETURN OK (level, meanGrad)" vertex="1">
+          <mxGeometry height="50" width="220" x="390" y="1410" as="geometry" />
+        </mxCell>
+        <mxCell id="fb1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="One last I2C read (the done pulse may have been missed)" vertex="1">
+          <mxGeometry height="70" width="240" x="720" y="750" as="geometry" />
+        </mxCell>
+        <mxCell id="fb2" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Valid READY frame and new captureId?" vertex="1">
+          <mxGeometry height="100" width="240" x="1085" y="735" as="geometry" />
+        </mxCell>
+        <mxCell id="f1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="RETURN FAIL: FAULT_WAKE_LINE_STUCK" vertex="1">
+          <mxGeometry height="70" width="250" x="800" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Send ESP_CMD_ABORT (ignore result). RETURN FAIL: FAULT_ESP_TIMEOUT" vertex="1">
+          <mxGeometry height="90" width="250" x="1080" y="590" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="RETURN FAIL: FAULT_ESP_ERROR (errCode logged)" vertex="1">
+          <mxGeometry height="80" width="250" x="835" y="1060" as="geometry" />
+        </mxCell>
+        <mxCell id="f4" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="RETURN FAIL: FAULT_ESP_BAD_DATA (stale captureId)" vertex="1">
+          <mxGeometry height="80" width="250" x="835" y="1190" as="geometry" />
+        </mxCell>
+        <mxCell id="nt" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;verticalAlign=top;" value="&lt;b&gt;Why one read after the pulse&lt;/b&gt;&lt;br&gt;The ESP32 raises done only when the result is final. No I2C traffic while it boots and runs the camera. The pulse is the trigger; the single fallback read after the timeout covers a missed pulse." vertex="1">
+          <mxGeometry height="130" width="300" x="1020" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="x0" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="s1" value="">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="500" y="70" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x1" edge="1" parent="1" source="s1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="f1" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x2" edge="1" parent="1" source="s1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="s2" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x3" edge="1" parent="1" source="s2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="s3" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x4" edge="1" parent="1" source="s3" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=1;exitY=0.5;entryX=0.5;entryY=1;" target="f1" value="No (stuck LOW)">
+          <mxGeometry relative="1" x="-0.3959" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="925" y="385" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x5" edge="1" parent="1" source="s3" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="s4" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x6" edge="1" parent="1" source="s4" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="s5" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x7" edge="1" parent="1" source="s5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="s6" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x8" edge="1" parent="1" source="s6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0.5;exitY=0;" value="No: keep waiting">
+          <mxGeometry relative="1" x="-0.0182" as="geometry">
+            <Array as="points">
+              <mxPoint x="840" y="570" />
+            </Array>
+            <mxPoint x="500" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x9" edge="1" parent="1" source="s6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="fb1" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x10" edge="1" parent="1" source="s5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="s7" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x11" edge="1" parent="1" source="s7" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="s7d" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x12" edge="1" parent="1" source="s7d" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" target="s5" value="No: ignore as noise">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="270" y="885" />
+              <mxPoint x="270" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x13" edge="1" parent="1" source="s7d" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="s8" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x14" edge="1" parent="1" source="s8" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="s9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x15" edge="1" parent="1" source="s9" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="s10" value="READY">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x16" edge="1" parent="1" source="s9" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" target="s5" value="NOT_READY / bad CRC / NACK: keep waiting">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="130" y="1100" />
+              <mxPoint x="130" y="655" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x17" edge="1" parent="1" source="s9" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="f3" value="ERROR">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x18" edge="1" parent="1" source="s10" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" target="f4" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x19" edge="1" parent="1" source="s10" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="s11" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x20" edge="1" parent="1" source="s11" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="s12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x21" edge="1" parent="1" source="fb1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="fb2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x22" edge="1" parent="1" source="fb2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0.5;exitY=1;entryX=1;entryY=0.5;exitDx=0;exitDy=0;" target="s11" value="Yes (log: done pulse missed)">
+          <mxGeometry relative="1" x="-0.1572" as="geometry">
+            <Array as="points">
+              <mxPoint x="1205" y="1345" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x23" edge="1" parent="1" source="fb2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="f2" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p4" name="8 Flow: ETLC protocol send and receive">
+    <mxGraphModel dx="3003" dy="1693" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1700" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T" parent="1" style="text;html=1;fontStyle=1;fontSize=16;" value="ATmega firmware flow 4/4: how the ATmega - ETLC protocol (TLCP) works. Left: send procedure. Right: receive procedure." vertex="1">
+          <mxGeometry height="24" width="1200" x="40" as="geometry" />
+        </mxCell>
+        <mxCell id="t0" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="send(cmd, payload)" vertex="1">
+          <mxGeometry height="40" width="200" x="200" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="t1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Build frame: 0xA5, SEQ = txSeq++, CMD, LEN, PAYLOAD (big endian), CRC-8 over SEQ..PAYLOAD&lt;br&gt;attempt = 0" vertex="1">
+          <mxGeometry height="80" width="280" x="160" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="t2" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Bus idle for 5 ms?&lt;br&gt;(nothing being received)" vertex="1">
+          <mxGeometry height="100" width="280" x="160" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="t3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Transmit: DE = 1, /RE = 1 (receiver off)&lt;br&gt;write all bytes, wait for TXC flag&lt;br&gt;DE = 0, /RE = 0 (back to receive)" vertex="1">
+          <mxGeometry height="90" width="280" x="160" y="350" as="geometry" />
+        </mxCell>
+        <mxCell id="t4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Wait up to 150 ms for ACK or NAK with the same SEQ" vertex="1">
+          <mxGeometry height="60" width="280" x="160" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="t5" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Reply received?" vertex="1">
+          <mxGeometry height="90" width="280" x="160" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="t6" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="ACK or NAK?" vertex="1">
+          <mxGeometry height="90" width="280" x="160" y="690" as="geometry" />
+        </mxCell>
+        <mxCell id="t7" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="RETURN OK" vertex="1">
+          <mxGeometry height="50" width="160" x="70" y="840" as="geometry" />
+        </mxCell>
+        <mxCell id="t8" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="RETURN NAK(reason)" vertex="1">
+          <mxGeometry height="50" width="180" x="360" y="850" as="geometry" />
+        </mxCell>
+        <mxCell id="t9" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="attempt++ ;  attempt &gt; 3 ?" vertex="1">
+          <mxGeometry height="90" width="240" x="520" y="560" as="geometry" />
+        </mxCell>
+        <mxCell id="t10" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="RETURN FAIL (no ACK)&lt;br&gt;caller applies its fault rule" vertex="1">
+          <mxGeometry height="70" width="200" x="540" y="700" as="geometry" />
+        </mxCell>
+        <mxCell id="t11" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=6;" value="Wait idle gap (5 ms), feed watchdog, retry with the SAME frame and SEQ" vertex="1">
+          <mxGeometry height="70" width="240" x="520" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="u1" edge="1" parent="1" source="t0" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="t1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u2" edge="1" parent="1" source="t1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="t2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u3" edge="1" parent="1" source="t2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="t3" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u3b" edge="1" parent="1" source="t2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0;exitY=0.5;" value="No: wait">
+          <mxGeometry relative="1" x="-0.4815" as="geometry">
+            <mxPoint as="offset" />
+            <Array as="points">
+              <mxPoint x="130" y="270" />
+              <mxPoint x="130" y="200" />
+            </Array>
+            <mxPoint x="300" y="200" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="u4" edge="1" parent="1" source="t3" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="t4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u5" edge="1" parent="1" source="t4" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="t5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u6" edge="1" parent="1" source="t5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="t6" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u7" edge="1" parent="1" source="t5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="t9" value="No (timeout)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u8" edge="1" parent="1" source="t6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0;exitY=0.5;entryX=0.5;entryY=0;" target="t7" value="ACK">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u9" edge="1" parent="1" source="t6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=1;exitY=0.5;entryX=0.5;entryY=0;" target="t8" value="NAK">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u10" edge="1" parent="1" source="t9" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="t10" value="Yes (4 tries used)">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u11" edge="1" parent="1" source="t9" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" target="t11" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="u12" edge="1" parent="1" source="t11" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0.5;exitY=0;entryX=1;entryY=0.5;" target="t2" value="resend">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="640" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="r0" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="receive (runs continuously while awake;&lt;br&gt;RX ISR fills a ring buffer)" vertex="1">
+          <mxGeometry height="60" width="260" x="940" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="r1" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Next byte == 0xA5 (SOF)?" vertex="1">
+          <mxGeometry height="90" width="260" x="940" y="120" as="geometry" />
+        </mxCell>
+        <mxCell id="r2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Read SEQ, CMD, LEN (each within 20 ms)" vertex="1">
+          <mxGeometry height="60" width="260" x="940" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="r3" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="LEN &lt;= 4 and no timeout?" vertex="1">
+          <mxGeometry height="90" width="260" x="940" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="r4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Read LEN payload bytes + CRC byte" vertex="1">
+          <mxGeometry height="60" width="260" x="940" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="r5" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="CRC-8 matches?" vertex="1">
+          <mxGeometry height="90" width="260" x="940" y="540" as="geometry" />
+        </mxCell>
+        <mxCell id="r6" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="CMD is ACK or NAK?" vertex="1">
+          <mxGeometry height="90" width="260" x="940" y="660" as="geometry" />
+        </mxCell>
+        <mxCell id="r7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Hand to the waiting send() procedure (matched by SEQ)" vertex="1">
+          <mxGeometry height="70" width="240" x="1300" y="670" as="geometry" />
+        </mxCell>
+        <mxCell id="r8" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Same SEQ + CMD as the last accepted command?" vertex="1">
+          <mxGeometry height="100" width="260" x="940" y="780" as="geometry" />
+        </mxCell>
+        <mxCell id="r9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Duplicate (our ACK was lost): wait 3 ms, resend the previous ACK, do NOT run the command again" vertex="1">
+          <mxGeometry height="80" width="260" x="1300" y="790" as="geometry" />
+        </mxCell>
+        <mxCell id="r10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="New command: wait 3 ms. RED_STARTED / PING: reply ACK(OK). Unknown CMD: NAK(UNKNOWN_CMD). Bad LEN: NAK(BAD_LEN).&lt;br&gt;Remember SEQ + CMD, queue the command for the FSM." vertex="1">
+          <mxGeometry height="100" width="340" x="900" y="920" as="geometry" />
+        </mxCell>
+        <mxCell id="r11" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=6;" value="Drop byte / frame silently and go back to waiting for SOF. The sender&#39;s 150 ms timeout makes it retry." vertex="1">
+          <mxGeometry height="90" width="260" x="1300" y="330" as="geometry" />
+        </mxCell>
+        <mxCell id="v1" edge="1" parent="1" source="r0" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="r1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v2" edge="1" parent="1" source="r1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="r2" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v2b" edge="1" parent="1" source="r1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0;exitY=0.5;entryX=0;entryY=0.5;" target="r0" value="No: discard byte">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="860" y="165" />
+              <mxPoint x="860" y="60" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v3" edge="1" parent="1" source="r2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="r3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v4" edge="1" parent="1" source="r3" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="r4" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v4b" edge="1" parent="1" source="r3" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="r11" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v5" edge="1" parent="1" source="r4" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="r5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v5b" edge="1" parent="1" source="r5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=1;exitY=0.5;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" target="r11" value="No">
+          <mxGeometry relative="1" x="-0.1949" as="geometry">
+            <Array as="points">
+              <mxPoint x="1430" y="585" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="v6" edge="1" parent="1" source="r5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="r6" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v7" edge="1" parent="1" source="r6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="r7" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v8" edge="1" parent="1" source="r6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="r8" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v9" edge="1" parent="1" source="r8" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="r9" value="Yes">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="v10" edge="1" parent="1" source="r8" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="r10" value="No">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="seq" name="9 One cycle sequence">
+    <mxGraphModel dx="2502" dy="1410" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1500" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="la" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="ETLC" vertex="1">
+          <mxGeometry height="560" width="100" x="100" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lb" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ATmega" vertex="1">
+          <mxGeometry height="560" width="100" x="400" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="lc" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#e1d5e7;strokeColor=#9673a6;" value="ESP32-CAM" vertex="1">
+          <mxGeometry height="560" width="100" x="700" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="m1" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;" value="PEAK_START">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="110" as="sourcePoint" />
+            <mxPoint x="150" y="110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m2" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" value="ACK">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="140" as="sourcePoint" />
+            <mxPoint x="450" y="140" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m3" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;" value="RED_STARTED (secsToGreen)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="190" as="sourcePoint" />
+            <mxPoint x="450" y="190" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m4" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" value="ACK">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="220" as="sourcePoint" />
+            <mxPoint x="150" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n1" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;" value="accumulate A s" vertex="1">
+          <mxGeometry height="30" width="110" x="470" y="240" as="geometry" />
+        </mxCell>
+        <mxCell id="m5" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;strokeColor=#b85450;" value="wake pulse: 100 ms LOW">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="300" as="sourcePoint" />
+            <mxPoint x="750" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="n2" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;" value="boot, capture, density" vertex="1">
+          <mxGeometry height="30" width="110" x="770" y="315" as="geometry" />
+        </mxCell>
+        <mxCell id="m6" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;" value="(ATmega waits; no I2C traffic during capture)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="370" as="sourcePoint" />
+            <mxPoint x="750" y="370" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m7" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;strokeColor=#b85450;" value="done pulse: 30 ms LOW">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="400" as="sourcePoint" />
+            <mxPoint x="450" y="400" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m8" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" value="I2C read 6 bytes once: READY, level, CRC ok">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="750" y="430" as="sourcePoint" />
+            <mxPoint x="450" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m9" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;" value="ESP_CMD_SLEEP, then deep sleep">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="460" as="sourcePoint" />
+            <mxPoint x="750" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m10" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;" value="GREEN_TIME (greenSecs, level)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="450" y="510" as="sourcePoint" />
+            <mxPoint x="150" y="510" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="m11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" value="ACK (or NAK: LATE / OUT_OF_RANGE)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="540" as="sourcePoint" />
+            <mxPoint x="450" y="540" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ot" parent="1" style="text;html=1;fontStyle=1;fontSize=16;" value="Peak window over: what happens when the end of the peak is reached" vertex="1">
+          <mxGeometry height="30" width="800" x="60" y="680" as="geometry" />
+        </mxCell>
+        <mxCell id="oE" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" value="ETLC" vertex="1">
+          <mxGeometry height="700" width="100" x="100" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="oA" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="ATmega" vertex="1">
+          <mxGeometry height="700" width="100" x="350" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="oR" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#fff2cc;strokeColor=#d6b656;" value="DS3231 RTC" vertex="1">
+          <mxGeometry height="700" width="100" x="600" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="oS" parent="1" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#e1d5e7;strokeColor=#9673a6;" value="ESP32-CAM" vertex="1">
+          <mxGeometry height="700" width="100" x="850" y="720" as="geometry" />
+        </mxCell>
+        <mxCell id="o1" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;" value="read time (about once per second)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="800" as="sourcePoint" />
+            <mxPoint x="650" y="800" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o2" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" value="time &gt;= window end">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="840" as="sourcePoint" />
+            <mxPoint x="400" y="840" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o3" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=6;" value="Peak window over. Leave the peak loop; no new cycle is started." vertex="1">
+          <mxGeometry height="50" width="260" x="430" y="860" as="geometry" />
+        </mxCell>
+        <mxCell id="oalt" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;dashed=1;align=left;verticalAlign=top;fontStyle=2;" value="if a cycle is in progress" vertex="1">
+          <mxGeometry height="60" width="590" x="370" y="935" as="geometry" />
+        </mxCell>
+        <mxCell id="o4" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;dashed=1;" value="ESP_CMD_ABORT">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="975" as="sourcePoint" />
+            <mxPoint x="900" y="975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o5" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;spacingLeft=6;" value="ESP32 deep-sleeps" vertex="1">
+          <mxGeometry height="40" width="150" x="960" y="945" as="geometry" />
+        </mxCell>
+        <mxCell id="o6" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=block;" value="PEAK_END">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="400" y="1040" as="sourcePoint" />
+            <mxPoint x="150" y="1040" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o7" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" value="ACK(PEAK_END, OK)">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="150" y="1080" as="sourcePoint" />
+            <mxPoint x="400" y="1080" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o8" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=6;" value="ETLC: back to NORMAL. Fixed timing only. Stops sending RED_STARTED, ignores everything except PEAK_START and PING." vertex="1">
+          <mxGeometry height="90" width="250" x="10" y="1110" as="geometry" />
+        </mxCell>
+        <mxCell id="o9" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=6;" value="No ACK within 150 ms: resend the same frame, up to 3 retries. Then log FAULT_PEAKEND_NO_ACK and carry on. If it is lost completely, the ETLC returns to NORMAL after its silence timeout (about 20 min)." vertex="1">
+          <mxGeometry height="100" width="330" x="430" y="1110" as="geometry" />
+        </mxCell>
+        <mxCell id="o10" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=6;" value="ATmega enters power-down sleep. The next alarm was already armed at peak start. ESP32 is already in deep sleep." vertex="1">
+          <mxGeometry height="70" width="330" x="430" y="1230" as="geometry" />
+        </mxCell>
+        <mxCell id="o11" edge="1" parent="1" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" value="INT0: next window start alarm">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="1340" as="sourcePoint" />
+            <mxPoint x="400" y="1340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="o12" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=6;" value="ATmega wakes, arms the next alarm again, starts a new peak sequence (flow page 5)." vertex="1">
+          <mxGeometry height="50" width="330" x="430" y="1360" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p5" name="10 Protocol reference">
+    <mxGraphModel dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T" value="TLCP reference: frame, commands, message sequence and ETLC behaviour (RS-485, 9600 8N1)" style="text;html=1;fontStyle=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="0" width="900" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="f1" value="SOF&lt;br&gt;0xA5" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" value="SEQ&lt;br&gt;1 B" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="130" y="40" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" value="CMD&lt;br&gt;1 B" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="220" y="40" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f4" value="LEN&lt;br&gt;0..4" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;" vertex="1" parent="1">
+          <mxGeometry x="310" y="40" width="90" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f5" value="PAYLOAD&lt;br&gt;LEN bytes, big endian" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;" vertex="1" parent="1">
+          <mxGeometry x="400" y="40" width="200" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="f6" value="CRC-8&lt;br&gt;poly 0x07, init 0&lt;br&gt;over SEQ..PAYLOAD" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;" vertex="1" parent="1">
+          <mxGeometry x="600" y="40" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="cm" value="&lt;table border=&quot;1&quot; cellpadding=&quot;4&quot; style=&quot;border-collapse:collapse;font-size:12px&quot;&gt;&lt;tr style=&quot;background:#dae8fc&quot;&gt;&lt;th&gt;Code&lt;/th&gt;&lt;th&gt;Command&lt;/th&gt;&lt;th&gt;From&lt;/th&gt;&lt;th&gt;Payload&lt;/th&gt;&lt;th&gt;Meaning&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x01&lt;/td&gt;&lt;td&gt;PEAK_START&lt;/td&gt;&lt;td&gt;ATmega&lt;/td&gt;&lt;td&gt;none&lt;/td&gt;&lt;td&gt;peak window began&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x02&lt;/td&gt;&lt;td&gt;RED_STARTED&lt;/td&gt;&lt;td&gt;ETLC&lt;/td&gt;&lt;td&gt;u16 secsToGreen&lt;/td&gt;&lt;td&gt;camera road red now&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x03&lt;/td&gt;&lt;td&gt;GREEN_TIME&lt;/td&gt;&lt;td&gt;ATmega&lt;/td&gt;&lt;td&gt;u16 greenSecs, u8 level&lt;/td&gt;&lt;td&gt;proposed next green&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x04&lt;/td&gt;&lt;td&gt;PEAK_END&lt;/td&gt;&lt;td&gt;ATmega&lt;/td&gt;&lt;td&gt;none&lt;/td&gt;&lt;td&gt;resume fixed timing&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x05&lt;/td&gt;&lt;td&gt;PING&lt;/td&gt;&lt;td&gt;either&lt;/td&gt;&lt;td&gt;none&lt;/td&gt;&lt;td&gt;link check&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x80&lt;/td&gt;&lt;td&gt;ACK&lt;/td&gt;&lt;td&gt;either&lt;/td&gt;&lt;td&gt;u8 cmd, u8 status&lt;/td&gt;&lt;td&gt;accepted&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x81&lt;/td&gt;&lt;td&gt;NAK&lt;/td&gt;&lt;td&gt;either&lt;/td&gt;&lt;td&gt;u8 cmd, u8 reason&lt;/td&gt;&lt;td&gt;refused&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="40" y="130" width="720" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="st" value="&lt;b&gt;Status / reason codes&lt;/b&gt;&lt;br&gt;0 OK, 1 BAD_STATE, 2 OUT_OF_RANGE, 3 LATE, 4 BUSY, 5 UNKNOWN_CMD, 6 BAD_LEN&lt;br&gt;&lt;br&gt;&lt;b&gt;Timing&lt;/b&gt;&lt;br&gt;inter-byte timeout 20 ms; reply delay 3 ms&lt;br&gt;ACK timeout 150 ms, 3 retries (4 tries total)&lt;br&gt;ETLC retries at 200 ms (breaks collision tie)" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="800" y="40" width="360" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="lA" value="ATmega" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="200" y="360" width="100" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="lE" value="ETLC" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=1;collapsible=0;recursiveResize=0;outlineConnect=0;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="560" y="360" width="100" height="440" as="geometry" />
+        </mxCell>
+        <mxCell id="q1" value="PEAK_START" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="430" as="sourcePoint" />
+            <mxPoint x="610" y="430" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q2" value="ACK(PEAK_START, OK)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="470" as="sourcePoint" />
+            <mxPoint x="250" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q3" value="RED_STARTED (secsToGreen)  [road turned red]" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="530" as="sourcePoint" />
+            <mxPoint x="250" y="530" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q4" value="ACK(RED_STARTED, OK)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="570" as="sourcePoint" />
+            <mxPoint x="610" y="570" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q5" value="... accumulate, wake ESP32, capture ..." style="shape=note;whiteSpace=wrap;html=1;size=8;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="270" y="585" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="q6" value="GREEN_TIME (greenSecs, level)" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="660" as="sourcePoint" />
+            <mxPoint x="610" y="660" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q7" value="ACK(OK)  or  NAK(LATE / OUT_OF_RANGE / BAD_STATE)" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="610" y="700" as="sourcePoint" />
+            <mxPoint x="250" y="700" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="q8" value="PEAK_END  -&gt;  ACK  (at window end)" style="html=1;verticalAlign=bottom;endArrow=block;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="760" as="sourcePoint" />
+            <mxPoint x="610" y="760" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="es" value="&lt;b&gt;ETLC side rules&lt;/b&gt;&lt;br&gt;NORMAL: fixed timing, accepts PEAK_START and PING only&lt;br&gt;ADAPTIVE_IDLE: fixed timing; sends RED_STARTED when the camera road turns red&lt;br&gt;AWAIT_GREEN_TIME: accepts GREEN_TIME until (secsToGreen - guard)&lt;br&gt;GREEN_TIME is applied ONCE, to the next green only&lt;br&gt;Checks: right state, enough time left, greenSecs within its own min/max&lt;br&gt;PEAK_END or ATmega silence timeout: back to NORMAL&lt;br&gt;Never violates its own safety timings" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#d5e8d4;strokeColor=#82b366;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="760" y="360" width="440" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="el" value="&lt;b&gt;Line discipline&lt;/b&gt;&lt;br&gt;Only one node transmits at a time; the sender waits for the reply.&lt;br&gt;TX: DE=1, /RE=1. RX: DE=0, /RE=0. Switch back after TXC.&lt;br&gt;The one possible clash (PEAK_END vs RED_STARTED) is resolved by retries with different delays." style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="760" y="590" width="440" height="130" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="proto" name="11 ETLC state machine and frame">
+    <mxGraphModel dx="1447" dy="816" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T" parent="1" style="text;html=1;fontStyle=1;fontSize=16;" value="TLCP v1: ATmega - ETLC custom protocol (RS-485, 9600 8N1, half-duplex)" vertex="1">
+          <mxGeometry height="30" width="800" x="40" y="10" as="geometry" />
+        </mxCell>
+        <mxCell id="fr" parent="1" style="text;html=1;fontSize=13;" value="&lt;b&gt;Frame&lt;/b&gt;" vertex="1">
+          <mxGeometry height="24" width="100" x="40" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="f1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;" value="SOF&lt;br&gt;0xA5&lt;br&gt;1 B" vertex="1">
+          <mxGeometry height="60" width="90" x="40" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;" value="SEQ&lt;br&gt;1 B" vertex="1">
+          <mxGeometry height="60" width="90" x="130" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;" value="CMD&lt;br&gt;1 B" vertex="1">
+          <mxGeometry height="60" width="90" x="220" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;" value="LEN&lt;br&gt;0..4" vertex="1">
+          <mxGeometry height="60" width="90" x="310" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;" value="PAYLOAD&lt;br&gt;LEN bytes, big endian" vertex="1">
+          <mxGeometry height="60" width="200" x="400" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="f6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;" value="CRC8&lt;br&gt;poly 0x07, init 0&lt;br&gt;over SEQ..PAYLOAD" vertex="1">
+          <mxGeometry height="60" width="150" x="600" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="cm" parent="1" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;" value="&lt;table border=&quot;1&quot; cellpadding=&quot;4&quot; style=&quot;border-collapse:collapse;font-size:12px&quot;&gt;&lt;tr style=&quot;background:#dae8fc&quot;&gt;&lt;th&gt;Code&lt;/th&gt;&lt;th&gt;Command&lt;/th&gt;&lt;th&gt;From&lt;/th&gt;&lt;th&gt;Payload&lt;/th&gt;&lt;th&gt;Meaning&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x01&lt;/td&gt;&lt;td&gt;PEAK_START&lt;/td&gt;&lt;td&gt;ATmega&lt;/td&gt;&lt;td&gt;none&lt;/td&gt;&lt;td&gt;peak window began&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x02&lt;/td&gt;&lt;td&gt;RED_STARTED&lt;/td&gt;&lt;td&gt;ETLC&lt;/td&gt;&lt;td&gt;u16 secsToGreen&lt;/td&gt;&lt;td&gt;camera road is red now&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x03&lt;/td&gt;&lt;td&gt;GREEN_TIME&lt;/td&gt;&lt;td&gt;ATmega&lt;/td&gt;&lt;td&gt;u16 greenSecs, u8 level&lt;/td&gt;&lt;td&gt;proposed next green&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x04&lt;/td&gt;&lt;td&gt;PEAK_END&lt;/td&gt;&lt;td&gt;ATmega&lt;/td&gt;&lt;td&gt;none&lt;/td&gt;&lt;td&gt;back to fixed timing&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x05&lt;/td&gt;&lt;td&gt;PING&lt;/td&gt;&lt;td&gt;either&lt;/td&gt;&lt;td&gt;none&lt;/td&gt;&lt;td&gt;link check&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x80&lt;/td&gt;&lt;td&gt;ACK&lt;/td&gt;&lt;td&gt;either&lt;/td&gt;&lt;td&gt;u8 cmd, u8 status&lt;/td&gt;&lt;td&gt;accepted&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x81&lt;/td&gt;&lt;td&gt;NAK&lt;/td&gt;&lt;td&gt;either&lt;/td&gt;&lt;td&gt;u8 cmd, u8 reason&lt;/td&gt;&lt;td&gt;refused&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="190" width="700" x="40" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="st" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;verticalAlign=top;" value="&lt;b&gt;Status / reason codes&lt;/b&gt;&lt;br&gt;0 OK, 1 BAD_STATE, 2 OUT_OF_RANGE, 3 LATE, 4 BUSY, 5 UNKNOWN_CMD, 6 BAD_LEN&lt;br&gt;&lt;br&gt;&lt;b&gt;Timing&lt;/b&gt;&lt;br&gt;inter-byte timeout 20 ms&lt;br&gt;reply delay 3 ms&lt;br&gt;ACK timeout 150 ms (ETLC retries at 200 ms)&lt;br&gt;3 retries, then fail&lt;br&gt;&lt;br&gt;&lt;b&gt;Link rules&lt;/b&gt;&lt;br&gt;- every command is answered by ACK or NAK&lt;br&gt;- retry reuses the SEQ; duplicates are re-ACKed, not re-run&lt;br&gt;- bad CRC: drop silently&lt;br&gt;- TX: DE=1, /RE=1; RX: DE=0, /RE=0; switch after TXC" vertex="1">
+          <mxGeometry height="310" width="340" x="780" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="es" parent="1" style="text;html=1;fontSize=13;" value="&lt;b&gt;ETLC state machine (to implement on the ETLC)&lt;/b&gt;" vertex="1">
+          <mxGeometry height="24" width="400" x="40" y="400" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="NORMAL&lt;br&gt;fixed timing" vertex="1">
+          <mxGeometry height="80" width="160" x="40" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="ADAPTIVE_IDLE&lt;br&gt;fixed timing,&lt;br&gt;sends RED_STARTED" vertex="1">
+          <mxGeometry height="80" width="180" x="340" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="AWAIT_GREEN_TIME&lt;br&gt;accepts GREEN_TIME" vertex="1">
+          <mxGeometry height="80" width="190" x="660" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="x1" edge="1" parent="1" source="e1" style="endArrow=classic;html=1;" target="e2" value="PEAK_START">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x2" edge="1" parent="1" source="e2" style="endArrow=classic;html=1;" target="e3" value="RED_STARTED ACKed">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x3" edge="1" parent="1" source="e3" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" target="e2" value="GREEN_TIME applied or deadline passed">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="755" y="610" />
+              <mxPoint x="430" y="610" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x4" edge="1" parent="1" source="e2" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;dashed=1;exitX=0.5;exitY=0;entryX=0.5;entryY=0;" target="e1" value="PEAK_END or silence timeout (from either state)">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="430" y="450" />
+              <mxPoint x="120" y="450" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ev" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;verticalAlign=top;" value="&lt;b&gt;ETLC validation of GREEN_TIME&lt;/b&gt;&lt;br&gt;- state must be AWAIT_GREEN_TIME, else NAK BAD_STATE&lt;br&gt;- time left to green &gt;= guard, else NAK LATE&lt;br&gt;- greenSecs inside [min, max], else NAK OUT_OF_RANGE&lt;br&gt;- apply once, to the next green only&lt;br&gt;- never break own safety timings" vertex="1">
+          <mxGeometry height="110" width="430" x="40" y="650" as="geometry" />
+        </mxCell>
+        <mxCell id="av" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=8;verticalAlign=top;" value="&lt;b&gt;ATmega send conditions&lt;/b&gt;&lt;br&gt;- PEAK_START: at peak start, retry via PEAK_FALLBACK + PING&lt;br&gt;- GREEN_TIME: only if it arrives at least GUARD_S before green&lt;br&gt;- PEAK_END: when RTC time passes window end; abort ESP32 first&lt;br&gt;- Budget: A + T_esp + T_tx + G &lt;= secsToGreen" vertex="1">
+          <mxGeometry height="110" width="430" x="500" y="650" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="regatm" name="12 ATmega register file">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T" value="ATmega register files (EEPROM parameters, RAM status)" style="text;html=1;fontStyle=1;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="40" y="10" width="700" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="p" value="&lt;table border=&quot;1&quot; cellpadding=&quot;3&quot; style=&quot;border-collapse:collapse;font-size:12px&quot;&gt;&lt;tr style=&quot;background:#dae8fc&quot;&gt;&lt;th&gt;Addr&lt;/th&gt;&lt;th&gt;Name&lt;/th&gt;&lt;th&gt;Type&lt;/th&gt;&lt;th&gt;Default&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x00&lt;/td&gt;&lt;td&gt;MAGIC&lt;/td&gt;&lt;td&gt;u16&lt;/td&gt;&lt;td&gt;0x544C&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x02&lt;/td&gt;&lt;td&gt;VERSION&lt;/td&gt;&lt;td&gt;u8&lt;/td&gt;&lt;td&gt;1&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x03&lt;/td&gt;&lt;td&gt;ACCUM_DELAY_S&lt;/td&gt;&lt;td&gt;u16&lt;/td&gt;&lt;td&gt;60&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x05&lt;/td&gt;&lt;td&gt;ACCUM_MIN_S&lt;/td&gt;&lt;td&gt;u16&lt;/td&gt;&lt;td&gt;15&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x07&lt;/td&gt;&lt;td&gt;GUARD_S&lt;/td&gt;&lt;td&gt;u8&lt;/td&gt;&lt;td&gt;5&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x08&lt;/td&gt;&lt;td&gt;ESP_TIMEOUT_S&lt;/td&gt;&lt;td&gt;u8&lt;/td&gt;&lt;td&gt;15&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x09&lt;/td&gt;&lt;td&gt;ESP_POLL_MS&lt;/td&gt;&lt;td&gt;u16&lt;/td&gt;&lt;td&gt;250&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x0B&lt;/td&gt;&lt;td&gt;GREEN_MIN_S&lt;/td&gt;&lt;td&gt;u16&lt;/td&gt;&lt;td&gt;10 (placeholder)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x0D&lt;/td&gt;&lt;td&gt;GREEN_MAX_S&lt;/td&gt;&lt;td&gt;u16&lt;/td&gt;&lt;td&gt;60 (placeholder)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x0F&lt;/td&gt;&lt;td&gt;GREEN_L0_S&lt;/td&gt;&lt;td&gt;u16&lt;/td&gt;&lt;td&gt;10 (placeholder)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x11&lt;/td&gt;&lt;td&gt;GREEN_L1_S&lt;/td&gt;&lt;td&gt;u16&lt;/td&gt;&lt;td&gt;20 (placeholder)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x13&lt;/td&gt;&lt;td&gt;GREEN_L2_S&lt;/td&gt;&lt;td&gt;u16&lt;/td&gt;&lt;td&gt;35 (placeholder)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x15&lt;/td&gt;&lt;td&gt;GREEN_L3_S&lt;/td&gt;&lt;td&gt;u16&lt;/td&gt;&lt;td&gt;50 (placeholder)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x17&lt;/td&gt;&lt;td&gt;PING_RETRY_S&lt;/td&gt;&lt;td&gt;u16&lt;/td&gt;&lt;td&gt;60&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x19&lt;/td&gt;&lt;td&gt;PEAK_START_RETRIES&lt;/td&gt;&lt;td&gt;u8&lt;/td&gt;&lt;td&gt;3&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x1A&lt;/td&gt;&lt;td&gt;SCHED_COUNT&lt;/td&gt;&lt;td&gt;u8&lt;/td&gt;&lt;td&gt;2 (max 4)&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x1B&lt;/td&gt;&lt;td&gt;SCHED[0..3]&lt;/td&gt;&lt;td&gt;4 x 6 B&lt;/td&gt;&lt;td&gt;see right&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0x33&lt;/td&gt;&lt;td&gt;CRC&lt;/td&gt;&lt;td&gt;u8&lt;/td&gt;&lt;td&gt;over 0x00..0x32&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="480" height="470" as="geometry" />
+        </mxCell>
+        <mxCell id="sc" value="&lt;b&gt;Schedule entry (6 bytes)&lt;/b&gt;&lt;br&gt;[0] dowMask: bit0 Sun ... bit6 Sat&lt;br&gt;[1] startHour&lt;br&gt;[2] startMin&lt;br&gt;[3] endHour&lt;br&gt;[4] endMin&lt;br&gt;[5] flags: bit0 enabled&lt;br&gt;&lt;br&gt;Windows: no midnight crossing, no overlap&lt;br&gt;Default (placeholder): Mon-Fri 07:30-09:30 and 16:30-18:30&lt;br&gt;If EEPROM magic/CRC bad: use defaults" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="560" y="60" width="330" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="rs" value="&lt;b&gt;Runtime status (RAM)&lt;/b&gt;&lt;br&gt;state (u8)&lt;br&gt;rtcValid, peakActive, linkUp (bool)&lt;br&gt;cycleCount, sentCount, fallbackCount (u16)&lt;br&gt;lastLevel, lastMeanGrad, lastCaptureId (u8)&lt;br&gt;lastGreenS (u16)&lt;br&gt;lastError (FaultCode)&lt;br&gt;txSeq (u8)" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="560" y="300" width="330" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="ft" value="&lt;b&gt;Fault codes (lastError)&lt;/b&gt;&lt;br&gt;01 RTC_OSF, 02 RTC_COMM, 03 ETLC_NO_ACK, 04 NO_RED, 05 RED_TOO_SHORT, 06 WAKE_LINE_STUCK, 07 ESP_TIMEOUT, 08 ESP_ERROR, 09 ESP_BAD_DATA, 0A DEADLINE, 0B GREEN_REFUSED, 0C PEAKEND_NO_ACK" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#f8cecc;strokeColor=#b85450;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="560" y="490" width="330" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="rt" value="&lt;b&gt;DS3231 registers used&lt;/b&gt;&lt;br&gt;0x00-0x06 time/date   0x07-0x0A Alarm 1&lt;br&gt;0x0E Control: INTCN=1, A1IE=1&lt;br&gt;0x0F Status: OSF bit7 (check at boot), A1F bit0 (clear after alarm)" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#e1d5e7;strokeColor=#9673a6;align=left;spacingLeft=8;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="40" y="550" width="480" height="90" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="p6" name="13 ESP32 register file and flow">
+    <mxGraphModel dx="1741" dy="981" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T" parent="1" style="text;html=1;fontStyle=1;fontSize=16;" value="ESP32-CAM register file (what the ATmega sees over I2C, slave 0x08) and the flow that fills it" vertex="1">
+          <mxGeometry height="24" width="1000" x="40" as="geometry" />
+        </mxCell>
+        <mxCell id="rf" parent="1" style="text;html=1;align=left;verticalAlign=top;whiteSpace=wrap;" value="&lt;b&gt;Result register: ATmega reads 6 bytes in one transfer&lt;/b&gt;&lt;br&gt;&lt;table border=&quot;1&quot; cellpadding=&quot;4&quot; style=&quot;border-collapse:collapse;font-size:12px&quot;&gt;&lt;tr style=&quot;background:#e1d5e7&quot;&gt;&lt;th&gt;Byte&lt;/th&gt;&lt;th&gt;Field&lt;/th&gt;&lt;th&gt;Values&lt;/th&gt;&lt;th&gt;Written when&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;0&lt;/td&gt;&lt;td&gt;status&lt;/td&gt;&lt;td&gt;0 NOT_READY, 1 READY, 2 ERROR&lt;/td&gt;&lt;td&gt;NOT_READY at wake; READY / ERROR when the work ends&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;&lt;td&gt;level&lt;/td&gt;&lt;td&gt;0 LOW, 1 MEDIUM, 2 HIGH, 3 FULL&lt;/td&gt;&lt;td&gt;after density computation&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;&lt;td&gt;meanGrad&lt;/td&gt;&lt;td&gt;0..255 raw Sobel mean&lt;/td&gt;&lt;td&gt;after density computation&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;&lt;td&gt;errCode&lt;/td&gt;&lt;td&gt;0 none, 1 cam init, 2 capture, 3 JPEG decode, 4 no PSRAM, 5 alloc&lt;/td&gt;&lt;td&gt;on failure&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;4&lt;/td&gt;&lt;td&gt;captureId&lt;/td&gt;&lt;td&gt;+1 per wake, wraps at 255 (kept in RTC memory)&lt;/td&gt;&lt;td&gt;at wake&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;5&lt;/td&gt;&lt;td&gt;crc&lt;/td&gt;&lt;td&gt;CRC-8 (0x07) over bytes 0..4&lt;/td&gt;&lt;td&gt;recomputed on every change&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;" vertex="1">
+          <mxGeometry height="250" width="800" x="40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="cw" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#dae8fc;strokeColor=#6c8ebf;align=left;spacingLeft=8;verticalAlign=top;" value="&lt;b&gt;Command register: ATmega writes 1 byte&lt;/b&gt;&lt;br&gt;0x01 ESP_CMD_SLEEP : result read, go to deep sleep&lt;br&gt;0x02 ESP_CMD_ABORT : cancel, go to deep sleep&lt;br&gt;&lt;br&gt;&lt;b&gt;ATmega accepts a result only if&lt;/b&gt;&lt;br&gt;CRC ok, status = READY, captureId differs from the last cycle&lt;br&gt;&lt;br&gt;&lt;b&gt;&#39;Not ready&#39; means&lt;/b&gt;&lt;br&gt;address NACK, short read, bad CRC, or status NOT_READY" vertex="1">
+          <mxGeometry height="250" width="400" x="880" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="n1" parent="1" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="Reset / power-on" vertex="1">
+          <mxGeometry height="50" width="150" x="40" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="n2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="DEEP SLEEP&lt;br&gt;ext0 wake: GPIO13 LOW" vertex="1">
+          <mxGeometry height="60" width="180" x="240" y="335" as="geometry" />
+        </mxCell>
+        <mxCell id="n3" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Wake: wait for line HIGH, start I2C slave 0x08, captureId++, status = NOT_READY" vertex="1">
+          <mxGeometry height="80" width="220" x="470" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="n4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;" value="Camera init, discard 2 warm-up frames, capture QQVGA JPEG" vertex="1">
+          <mxGeometry height="80" width="220" x="740" y="325" as="geometry" />
+        </mxCell>
+        <mxCell id="n5" parent="1" style="rhombus;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;" value="Camera / decode ok?" vertex="1">
+          <mxGeometry height="90" width="200" x="1010" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="n6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="JPEGDEC 96x96, grey, blur, Sobel mean; thresholds 30 / 55 / 75 give level 0..3. Fill level, meanGrad, status = READY" vertex="1">
+          <mxGeometry height="90" width="260" x="740" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="n7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" value="Fill errCode, status = ERROR" vertex="1">
+          <mxGeometry height="90" width="200" x="1050" y="470" as="geometry" />
+        </mxCell>
+        <mxCell id="n8" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" value="Recompute CRC, then pulse wake line LOW for 30 ms (&#39;done&#39;)" vertex="1">
+          <mxGeometry height="70" width="230" x="470" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="n9" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" value="Wait for ESP_CMD_SLEEP / ABORT or 20 s self-timeout" vertex="1">
+          <mxGeometry height="70" width="190" x="240" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="n10" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;" value="Release line, wait for HIGH, go to deep sleep" vertex="1">
+          <mxGeometry height="70" width="150" x="40" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="g1" edge="1" parent="1" source="n1" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" edge="1" parent="1" source="n2" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n3" value="wake pulse">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g3" edge="1" parent="1" source="n3" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g4" edge="1" parent="1" source="n4" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g5" edge="1" parent="1" source="n5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0.5;exitY=1;entryX=1;entryY=0.5;" target="n6" value="Yes">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1110" y="440" />
+              <mxPoint x="1020" y="440" />
+              <mxPoint x="1020" y="515" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g5b" edge="1" parent="1" source="n5" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=1;exitY=0.5;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="n7" value="No">
+          <mxGeometry relative="1" x="-0.7448" as="geometry">
+            <Array as="points">
+              <mxPoint x="1300" y="365" />
+              <mxPoint x="1300" y="515" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g6" edge="1" parent="1" source="n6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0.5;exitY=1;entryX=1;entryY=0.5;" target="n8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="870" y="600" />
+              <mxPoint x="720" y="600" />
+              <mxPoint x="720" y="515" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g6b" edge="1" parent="1" source="n7" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0.5;exitY=1;entryX=0.5;entryY=1;" target="n8">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1150" y="620" />
+              <mxPoint x="585" y="620" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="g7" edge="1" parent="1" source="n8" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g8" edge="1" parent="1" source="n9" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;" target="n10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="g9" edge="1" parent="1" source="n10" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" target="n2" value="sleeping">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="115" y="430" />
+              <mxPoint x="330" y="430" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="cf" parent="1" style="shape=note;whiteSpace=wrap;html=1;size=10;fillColor=#fff2cc;strokeColor=#d6b656;align=left;spacingLeft=8;verticalAlign=top;" value="&lt;b&gt;ESP32 config constants (esp_config.h)&lt;/b&gt;&lt;br&gt;I2C_SLAVE_ADDRESS 0x08 ; SDA GPIO15, SCL GPIO14&lt;br&gt;WAKE_GPIO 13 (RTC-capable, ext0 wake on LOW)&lt;br&gt;DONE_PULSE_MS 30 ; ESP_AWAKE_TIMEOUT_S 20&lt;br&gt;CAM_FRAME_SIZE QQVGA JPEG ; CAM_WARMUP_FRAMES 2 ; IMG 96 x 96&lt;br&gt;THRESH_LOW / MED / HIGH = 30 / 55 / 75 (retune on site)&lt;br&gt;USE_STORED_IMAGE 0 (bench test without a camera view)" vertex="1">
+          <mxGeometry height="140" width="560" x="40" y="660" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
