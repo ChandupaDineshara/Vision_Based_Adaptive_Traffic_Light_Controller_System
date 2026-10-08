@@ -72,17 +72,3 @@ Details are in each folder's `README.md`.
 | Vision accuracy | The mean-gradient method is a rough busyness indicator (correlation 0.57 with labelled vehicle counts on the sample images). The thresholds are not tuned for the real camera. See `esp_firmware/docs/02_vision_algorithm.md` |
 | PCB | Schematic and layout in `PCB/` |
 
-## Known issues and open items
-- **Nothing is sent back to the ETLC yet.** The density is only printed on the ATmega's terminal. `density_output()` in
-  `ATMEGA_firmware/src/main.c` is the place to add an output.
-- **ETLC sync pulse** (polarity, voltage, meaning) still has to be confirmed. It is set by `TRAFFIC_ACTIVE_LOW` in `config.h`.
-- **RTC alarm wire:** the DS3231 SQW pin is not connected on the PCB; it is wired by hand to ATmega socket pin 26 (A3).
-- **Resistor values:** the schematic lists every resistor as 1.2 MOhm (I2C and wake-line pull-ups, reset pull-up, LED
-  resistors). That is far too high for I2C at 100 kHz; check the fitted values.
-- **No ISP header:** programming goes through header P1 and needs the Optiboot bootloader in the chip.
-- **Vision:** a lane mask, an empty-road reference and thresholds tuned on photos from the mounted camera are the next
-  steps to make the density estimate reliable.
-
-## Credits
-Based on a team-mate's prototype (ATmega sleep/wake handshake and the ESP32 camera, Wi-Fi and I2C node). The vision
-algorithm comes from the team's ESP32 vision experiments.
