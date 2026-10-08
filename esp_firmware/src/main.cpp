@@ -353,6 +353,12 @@ void setup()
   Wire.onReceive(onReceive);
   Wire.onRequest(onRequest);
 
+  // The original ESP32 runs onRequest() too late: the master's read would get
+  // stale fill bytes (0xFE/0xFF). Preload the transmit buffer with the answer
+  // so it is already there when the ATmega reads.
+  uint8_t answer = density;
+  Wire.slaveWrite(&answer, 1);
+
   wakeATmega();
 
   waitingSince = millis();

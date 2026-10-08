@@ -1,0 +1,2 @@
+Unit tests go in this folder (run with `pio test`). None yet for this project; it can only be tested
+on the board.

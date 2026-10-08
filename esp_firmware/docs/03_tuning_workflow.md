@@ -1,6 +1,6 @@
 # 03 Collecting photos and tuning
 
-The reference design already sends every photo to the laptop, which makes it the tool for tuning.
+The team's sketch already sends every photo to the laptop, which makes it the tool for tuning.
 
 ## 1. Collect
 1. Fill in `include/secrets.h` (Wi-Fi name, password, laptop address, e.g. `http://192.168.137.1:8000/upload`).

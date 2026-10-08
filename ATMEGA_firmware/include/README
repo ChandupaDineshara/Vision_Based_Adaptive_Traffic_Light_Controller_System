@@ -1,0 +1,2 @@
+Project-wide header files go in this folder (headers shared by several source files that do not belong
+to a library). It is empty for now: the headers of each driver sit next to its code in lib/.

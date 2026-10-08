@@ -1,0 +1,2 @@
+Private libraries go in this folder, one folder per library (code and headers together). PlatformIO
+finds them automatically from the #include lines in src/.
