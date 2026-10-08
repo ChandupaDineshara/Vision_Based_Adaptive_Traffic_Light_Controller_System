@@ -1,0 +1,5 @@
+{
+  "name": "tlc_schedule",
+  "version": "2.0.0",
+  "description": "Peak-window schedule logic and calendar maths. Pure C, no hardware access, unit-tested on the PC."
+}

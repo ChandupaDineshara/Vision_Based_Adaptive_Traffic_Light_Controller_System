@@ -57,3 +57,7 @@ venv/
 Thumbs.db
 desktop.ini
 ~$*
+
+# Wi-Fi credentials and collected photos for the ESP32 tuning build
+esp_firmware/include/secrets.h
+esp_firmware/tools/photos/

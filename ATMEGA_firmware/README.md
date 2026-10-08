@@ -1,51 +1,48 @@
-# ATmega328P firmware
+# ATmega firmware v2 (sync-pulse design)
 
-Coordinator of the adaptive traffic light add-on. Specification and diagrams are in `docs/`
-(start with `01_system_overview.md`; flowcharts in `TLC_firmware_architecture_final.drawio`).
+Register-level C firmware for the ATmega328P on the traffic light add-on board. It follows the
+team-mate's prototype (`README/atmega_controller`): the ATmega sleeps almost all the time, the traffic
+light controller (ETLC) wakes it with a pulse on **D3** during peak time, and the ESP32-CAM reports
+the **traffic density** over I2C.
+
+No Arduino framework is used. Only avr-libc headers.
 
 ## Build
 
 ```
-pio run -e release            production
-pio run -e debug              + trace output on PIN_DEBUG_TX (logic analyzer)
-pio run -e settime -t upload  bench only: sets the DS3231 to the PC build time; upload once, then flash release
-pio test -e native            unit tests of lib/tlc_core on the PC (needs a host C++ compiler)
+pio run -e release             real schedule; the RTC must already hold the right time
+pio run -e bench               bench test: RTC forced to 15:59:00 at every boot, two 1-minute windows
+pio run -e settime -t upload   upload once to set the RTC to the PC time, then flash "release"
+pio test -e native             unit tests of lib/tlc_schedule on the PC (needs a host C compiler)
 ```
 
-Pins are in `include/pins.h` and are **proposals** until the PCB pin map is confirmed.
+Terminal output: 38400 baud 8N1 on **header P1.3** (the ATmega TXD), through a USB-serial adapter.
 
 ## Layout
 
-| Path | Role | Hardware access |
-|---|---|---|
-| `include/tlc_protocol.h` | Wire constants, CRC-8, shared with the ESP32 and ETLC code | none |
-| `include/pins.h`, `include/fault.h` | Pin map, fault codes | none |
-| `lib/tlc_core/` | **Pure logic, unit-tested**: `tlcp_frame` (frame encode and parser), `schedule` (windows and next alarm), `green_calc` (level to seconds, timing budget), `esp_frame` (result checks), `params` (parameter file layout, CRC), `datetime` | none |
-| `src/fsm.*` | State machine: the only place that decides what happens next | via the modules below |
-| `src/tlcp_link.*` | ETLC protocol: send with ACK and retries, receive, duplicate filter, RED_STARTED event | `rs485` |
-| `src/rs485.*` | UART0 and MAX485 DE and /RE control | UART, 2 GPIO |
-| `src/esp_client.*` | One capture: wake pulse, wait for done, read the 6-byte result once, validate, SLEEP/ABORT | I2C, `wake_line` |
-| `src/wake_line.*` | Open-drain wake pulse and done-pulse detection | 1 GPIO |
-| `src/rtc_ds3231.*` | Time, Alarm 1, OSF, alarm flag | I2C |
-| `src/power.*` | Power-down sleep on the RTC alarm (A3 pin change, or INT0), watchdog | PCINT11 / INT0, WDT |
-| `src/params_store.*` | Parameter file in EEPROM, defaults if invalid | EEPROM |
-| `src/debug.*` | Trace output, compiled out of the release build | 1 GPIO (bit-bang) |
-| `src/main.cpp` | `setup()` and `loop()` only | |
+| Path | What it is |
+|---|---|
+| `include/config.h` | **All settings**: schedule windows, timeouts, ETLC sync polarity, density levels |
+| `src/main.c` | Start-up and the main flow (off-peak sleep, peak wait, ESP32 cycle) |
+| `src/hal_sleep.*` | Power-down sleep, three pin-change wake sources, watchdog timeout, delay |
+| `src/hal_twi.*` | I2C master |
+| `src/hal_uart.*` | Transmit-only serial port for the terminal |
+| `src/ds3231.*` | RTC driver (time, Alarm 1, oscillator-stopped flag) |
+| `src/esp_link.*` | Wake pulse on the shared line, GET_DATA and density read |
+| `lib/tlc_schedule/` | Pure logic: peak windows, "next boundary" for the alarm, calendar. Unit-tested |
+| `test/test_schedule/` | Unit tests |
+| `docs/` | Design documents and `firmware_architecture.xml` (open it in draw.io) |
 
-Dependencies point downward: `fsm` uses the service and driver modules; `lib/tlc_core` uses nothing.
+## What differs from the prototype
 
-## Behaviour in short
+- **Two peak windows a day** with a weekday mask. The alarm is always armed for the next window start
+  or end, so the second peak is armed automatically when the first one ends.
+- **The RTC is never overwritten in release.** If its oscillator-stopped flag is set (the battery was
+  removed) the firmware refuses to run until the time is set.
+- No `TEST_MODE` constant to edit: bench behaviour is a PlatformIO environment.
+- Plain register-level UART instead of Arduino `Serial`.
 
-- Between peaks the ATmega sleeps in power-down; the DS3231 alarm wakes it (SQW wired to socket pin 26 = A3, pin-change interrupt; checked at the pin level before sleeping so a pending alarm is never missed).
-- On every alarm wake, and on a boot inside a window, the **next** alarm is written first, then the peak sequence starts.
-- During a peak the ATmega stays awake (watchdog 8 s). It sends `PEAK_START`, waits for `RED_STARTED`, waits the accumulation delay, wakes the ESP32, waits for its done pulse, reads the result once, and sends `GREEN_TIME`.
-- Any fault means nothing is sent for that cycle; the ETLC keeps its fixed timing.
-- At the window end it sends `PEAK_END` and goes back to sleep.
+## Status
 
-## Notes
-
-- The reset-mode watchdog needs a bootloader that handles watchdog resets (Optiboot does; the very old Uno bootloader does not). A bare chip flashed over ISP is fine.
-- The debug trace is a transmit-only bit-bang (about 57600 baud) that blocks interrupts for about 0.17 ms per byte; keep traces short or the 9600 baud link can drop a byte.
-- The RTC alarm input is A3 (pin change); the pin level is checked before every sleep so an alarm is not missed. MAX485 DE and /RE are on D2 and D3 (header P1.2 and P1.1).
-- Schedule windows must not cross midnight; at most 4 entries. The default schedule and green times are placeholders.
-- Not yet tested on hardware.
+Builds with no warnings (about 4 KB flash). The schedule logic passes its 10 unit tests on the PC.
+The hardware code has **not** been run on the board yet.
