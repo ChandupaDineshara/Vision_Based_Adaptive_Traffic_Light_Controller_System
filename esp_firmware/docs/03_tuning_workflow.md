@@ -1,39 +1,29 @@
-# 03 Tuning workflow
+# 03 Collecting photos and tuning
 
-How to get thresholds that fit the **real camera** at the **real mounting position**.
+The reference design already sends every photo to the laptop, which makes it the tool for tuning.
 
-## 1. Collect photos (tuning build)
-1. Copy `include/secrets.example.h` to `include/secrets.h` and fill in the Wi-Fi name, password and the laptop address.
-   (`secrets.h` is ignored by git.) On a Windows hotspot the laptop is usually `192.168.137.1`.
-2. On the laptop run `python tools/receive_photos.py` and allow it through the firewall.
-3. Build and upload the tuning build: `pio run -e tuning -t upload`.
-4. Every cycle the ESP32 uploads the photo. The laptop saves it as, for example,
-   `20261008_141502_cap0007_L2_G63.jpg` and appends a line to `photos/log.csv`
-   (file, level, mean gradient, capture number, size).
+## 1. Collect
+1. Fill in `include/secrets.h` (Wi-Fi name, password, laptop address, e.g. `http://192.168.137.1:8000/upload`).
+2. On the laptop: `python tools/receive_photos.py`, allow it through the firewall. The ESP32 needs a **2.4 GHz** network.
+3. Upload the firmware and let it run (a wake pulse from the ATmega, or touch GPIO13 to GND for 100 ms).
+4. Each wake saves a JPEG in `tools/photos/` named by time. The ESP32's serial monitor prints, for the same wake,
+   `meanGrad = ... -> density level ...`. Write the pair down (time and number) while collecting, because the file
+   name does not contain it.
 
-The ESP32 must use 2.4 GHz Wi-Fi (it cannot use 5 GHz).
-
-## 2. Label the photos
-For each photo write down the real traffic level by eye, for example 0 empty, 1 light, 2 heavy, 3 jam
-(or the vehicle count). Aim for 20-30 photos covering all levels and different times of day (morning, noon,
-evening, shadows, rain if possible). Photos must all come from the same mounted camera.
+## 2. Label
+For each photo note the real traffic level by eye (0 empty, 1 light, 2 heavy, 3 jam) or the vehicle count. Aim for 20-30 photos
+from the same mounted camera: different times of day, shadows, rain if possible.
 
 ## 3. Choose thresholds
-Put the labels next to the logged `mean_grad` values. If the levels separate, pick the thresholds between the
-groups; if they overlap strongly, the method needs the improvements in `02_vision_algorithm.md` (lane mask,
-empty-road reference) before thresholds help.
+Compare the labels with the logged mean gradients. If the levels separate, pick the thresholds between the groups. If they
+overlap strongly, the method needs the improvements in `02_vision_algorithm.md` (lane mask, empty-road reference) first.
 
-Set the new values in a build flag, for example in `platformio.ini`:
+New thresholds go into a build flag in `platformio.ini`:
 ```
 build_flags = ... -DDENSITY_THRESH_LOW=22 -DDENSITY_THRESH_MED=40 -DDENSITY_THRESH_HIGH=60
 ```
 
-## 4. Switch back to the field build
-`pio run -e field -t upload`: no Wi-Fi, no password, shortest wake.
-
 ## Notes
-- If the uploaded photos look colour-shifted (reds and blues swapped, green tint), set
-  `DENSITY_RGB565_SWAPPED=1`.
-- The photo is 160 x 120 RGB565 converted to JPEG, so it is small and slightly soft: this is exactly what
-  the estimator sees.
-- Keep a record of which thresholds were used with which camera position.
+- If photos look colour-shifted (reds and blues swapped), set `-DDENSITY_RGB565_SWAPPED=1`.
+- The photo is 160 x 120 RGB565 converted to JPEG: exactly what the estimator sees.
+- Keep a record of the thresholds used with each camera position.

@@ -44,4 +44,4 @@ vision method in `ESP AI Thinker/`.
 5. After the ATmega has read the byte, release the line, wait until it reads HIGH, go to deep sleep.
 6. Safety: restart or sleep if the whole job takes longer than about 40 s; sleep if the ATmega never reads.
 
-The ESP32 side is in `esp_firmware/` (see its `docs/01_flow_and_interface.md`). If it cannot make a measurement it answers `0xFF`, which the ATmega rejects at once (values above 3 are invalid).
+The ESP32 side is in `esp_firmware/` (see its `docs/01_flow_and_interface.md`). The reference design hands over the current `density` value (0 if the measurement failed).

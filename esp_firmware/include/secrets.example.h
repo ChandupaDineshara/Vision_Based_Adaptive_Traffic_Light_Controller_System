@@ -6,8 +6,8 @@
 #ifndef SECRETS_H
 #define SECRETS_H
 
-#define WIFI_SSID      "your-network-name"
-#define WIFI_PASSWORD  "your-password"
+#define WIFI_SSID      "DESKTOP-IMH3MOH 2660"
+#define WIFI_PASSWORD  "g42312A("
 
 /* Address of the laptop running tools/receive_photos.py.
  * On a Windows "Mobile hotspot" the laptop is normally 192.168.137.1 (check with ipconfig). */

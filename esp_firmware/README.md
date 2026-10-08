@@ -1,67 +1,57 @@
 # ESP32-CAM firmware
 
-PlatformIO project for the **AI-Thinker ESP32-CAM** (Arduino-ESP32 framework). It photographs the road,
-estimates the traffic density with the mean-gradient method from `ESP AI Thinker/`, and gives the result to
-the ATmega over I2C. It is the ESP32 half of `ATMEGA_firmware/`.
+PlatformIO project for the **AI-Thinker ESP32-CAM** (Arduino-ESP32 framework). It is the team-mate's
+reference design (`README/esp32_cam_node/esp32_cam_node.ino`) **unchanged except for the vision algorithm**:
+the random density value is replaced by the density estimated from the photo.
 
-Based on the team-mate's prototype (`README/esp32_cam_node`): same wake line, same camera settings,
-same I2C slave. The random density value is replaced by the real estimate, and the Wi-Fi upload became an
-option.
+## What was changed from the reference sketch
+1. `lib/density/` added: the vision algorithm (mean-gradient method from `ESP AI Thinker/`).
+2. Inside `takeAndSendPhoto()`, right after the frame is captured, `density_from_rgb565()` computes the level 0..3
+   and stores it in `density`. The random line in `setup()` is removed.
+3. The Wi-Fi name, password and laptop address moved to `include/secrets.h` (ignored by git) so the password
+   never reaches the repository. Same three values as before.
+4. `#include <Arduino.h>` added (PlatformIO needs it in a `.cpp` file) and the comments say 0..3 instead of 0/1/2.
 
-## Build
+Everything else is the reference: wake on GPIO13, camera RGB565 160 x 120, JPEG, Wi-Fi POST to the laptop, I2C slave 0x08,
+shared-line pulse, 40 s restart timer, deep sleep. `src/main.cpp` can be compared line by line with the reference sketch.
 
+## Build and upload
 ```
-pio run -e field                  normal build, no Wi-Fi
-pio run -e field -t upload        upload to the board
-pio run -e tuning                 also sends every photo to the laptop (needs include/secrets.h)
-pio test -e native                unit tests of lib/density on the PC (needs a host C++ compiler)
-pio device monitor                serial output at 115200 baud
+pio run                 build
+pio run -t upload       upload
+pio device monitor      serial output, 115200 baud
+pio test -e native      unit tests of lib/density on the PC (needs a host C++ compiler)
 ```
+1. Copy `include/secrets.example.h` to `include/secrets.h` and fill in the Wi-Fi details.
+2. **Upload:** USB-serial adapter on U0T / U0R / GND, GPIO0 connected to GND, press RESET, upload, then remove the GPIO0
+   wire and press RESET again.
+3. On the laptop run `python tools/receive_photos.py` (hotspot on 2.4 GHz, laptop usually `192.168.137.1`) and allow it
+   through the firewall. Photos are saved in `tools/photos/`.
 
-**Uploading:** connect an USB-serial adapter, connect GPIO0 to GND, press the board's RESET button, run the
-upload, then remove the GPIO0 wire and press RESET again.
-
-## What one wake does
-```
-ATmega pulls the shared line (GPIO13) LOW ~100 ms  -> ESP32 wakes from deep sleep
- 1. camera: one 160 x 120 RGB565 frame (3 warm-up frames thrown away first)
- 2. vision: density level 0..3                        (lib/density)
- 3. tuning build only: JPEG of the photo -> Wi-Fi -> laptop
- 4. I2C slave 0x08 started with the result
- 5. shared line LOW ~100 ms                           -> ATmega wakes and reads the result
- 6. ATmega sends GET_DATA and reads 1 byte -> ESP32 goes back to deep sleep
-```
-- After power-up or a restart (anything but a wake from GPIO13) it goes straight back to sleep.
-- If a measurement fails it sends `0xFF` (not 0..3). The ATmega rejects it at once instead of waiting 48 s.
-- A 40 s timer restarts the chip if anything hangs; it sleeps anyway if the ATmega never reads the result (10 s).
-- The camera is held in power-down during sleep (GPIO32 frozen HIGH).
+To test without the ATmega, touch GPIO13 to GND for about 100 ms (J4B pin 5): the ESP32 wakes, measures, uploads, and goes
+back to sleep after 10 s.
 
 ## Layout
 | Path | What it is |
 |---|---|
-| `include/config.h` | **All settings**: pins, I2C address, timeouts, camera, Wi-Fi/JPEG options |
-| `include/secrets.example.h` | Copy to `secrets.h` (git-ignored) and fill in Wi-Fi name, password, laptop address |
+| `src/main.cpp` | The reference sketch with the vision call inserted |
 | `lib/density/` | **The vision algorithm** (pure C++, unit-tested): grey, shrink to 96 x 96, blur, Sobel, mean, thresholds |
-| `src/main.cpp` | The flow above |
-| `src/camera.*` | Camera setup, capture, power-down hold |
-| `src/wake_line.*` | The shared open-drain line and the deep-sleep wake |
-| `src/i2c_link.*` | I2C slave: GET_DATA in, one density byte out |
-| `src/uploader.*` | Wi-Fi photo upload (only in the tuning build) |
-| `test/test_density/` | Unit tests |
-| `tools/receive_photos.py` | Laptop program that saves the uploaded photos with their numbers in the file name |
-| `docs/` | Design notes: vision algorithm and limits, tuning workflow |
+| `include/secrets.example.h` | Template for `secrets.h` |
+| `test/test_density/` | 8 unit tests of the algorithm |
+| `tools/receive_photos.py` | Laptop program that saves the uploaded photos (the reference receiver) |
+| `docs/` | Notes: flow and interface, vision algorithm and its limits, collecting photos for tuning |
 
-## Pins
-| Signal | GPIO | Notes |
-|---|---|---|
-| Shared wake line | 13 | Open drain to the ATmega (level shifter). Never driven HIGH |
-| I2C SDA / SCL | 15 / 14 | Slave address 0x08. These are the SD-card pins: **no SD card** |
-| Camera power-down | 32 | HIGH = off, frozen during deep sleep |
-| Camera | 0, 5, 18, 19, 21-27, 34-36, 39 | Fixed by the board |
+## Pins (as in the reference)
+| Signal | GPIO |
+|---|---|
+| Shared wake line to the ATmega | 13 (open drain, never driven HIGH) |
+| I2C SDA / SCL (slave 0x08) | 15 / 14 (SD-card pins: no SD card) |
+| Camera | 0, 5, 18, 19, 21-27, 32, 34-36, 39 (fixed by the board) |
 
 ## Status
-- The vision module passes its 8 unit tests, and on the 24 sample images in `ESP AI Thinker/images/` it gives the
-  same mean-gradient values as the original algorithm (within 1).
-- The thresholds (30 / 55 / 75) are the ones from the experiments. They are **not** tuned for the real camera and give a
-  rough indication only (see `docs/02_vision_algorithm.md`).
-- Not tested on the board yet.
+- The vision module passes its 8 unit tests, and on the 24 sample images in `ESP AI Thinker/images/` it gives the same
+  mean-gradient values as the original algorithm (within 1).
+- Builds. Not tested on the board.
+- The thresholds (30 / 55 / 75) are not tuned for the real camera and give a rough indication only
+  (see `docs/02_vision_algorithm.md`).
+- As in the reference: if the camera or analysis fails, `density` keeps its start value 0 and the ATmega is still told 0.

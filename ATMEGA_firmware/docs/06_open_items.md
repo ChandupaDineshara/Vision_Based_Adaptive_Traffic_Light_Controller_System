@@ -12,7 +12,7 @@
 5. **Pulses during a cycle** are dropped. Decide whether they should be queued.
 
 ## To do
-- ESP32 firmware for this interface: written in `esp_firmware/` (untested on the board). It answers `0xFF` when no measurement could be made; the ATmega rejects it as an invalid value.
+- ESP32 firmware for this interface: written in `esp_firmware/` (untested on the board). It is the team-mate's reference design with the vision algorithm inserted; if a measurement fails it reports 0.
 - Reset watchdog for a hung program (needs the bootloader checked).
 - Replace the 1.2 MOhm resistors on the board.
 - Test on hardware; measure the sleep current.
